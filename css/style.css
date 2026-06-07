@@ -146,6 +146,8 @@ body{
 
 .login-btn{
 
+    text-decoration:none;
+    color:var(--text);
     border:none;
     background:none;
 
@@ -156,6 +158,8 @@ body{
 
 .signup-btn{
 
+    text-decoration:none;
+    display:inline-block;
     border:none;
 
     background:var(--primary);

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Platter Premium Food Delivery</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/signup.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+
+
+    <main class="auth-container">
+        
+        <!-- Form Area (Centered layout) -->
+        <section class="auth-form-side">
+            <div class="form-container">
+                
+                <!-- Brand Header -->
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <!-- Custom Cloche SVG -->
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4C11.45 4 11 4.45 11 5C11 5.3 11.13 5.57 11.34 5.76C7.22 6.27 4 9.76 4 14H20C20 9.76 16.78 6.27 12.66 5.76C12.87 5.57 13 5.3 13 5C13 4.45 12.55 4 12 4Z" fill="#F4B400"/>
+                            <path d="M3 16C3 15.45 3.45 15 4 15H20C20.55 15 21 15.45 21 16C21 16.55 20.55 17 20 17H4C3.45 17 3 16.55 3 16Z" fill="#F4B400"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Platter</span>
+                    <span class="logo-tagline">Good Food, Great Mood</span>
+                </div>
+
+                <header class="auth-header">
+                    <h1>Create Account 🚀</h1>
+                    <p class="subtitle">Let's get you started with Platter</p>
+                </header>
+
+                <!-- Form -->
+                <form id="signup-form" class="auth-form" novalidate>
+                    
+                    <!-- Alert Message Container -->
+                    <div id="alert-box" class="alert-box hidden"></div>
+
+                    <!-- Full Name Field -->
+                    <div class="input-group">
+                        <label for="full-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" id="full-name" name="name" placeholder="Enter your full name" required>
+                        </div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number Field with country prefix -->
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-wrapper phone-wrapper">
+                            <div class="country-dropdown">
+                                <span class="flag">🇮🇳</span>
+                                <span class="dial-code">+91</span>
+                                <i class="fa-solid fa-chevron-down country-chevron"></i>
+                            </div>
+                            <span class="phone-bar-divider"></span>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <button type="button" id="toggle-password" class="password-toggle" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm your password" required>
+                            <button type="button" id="toggle-confirm-password" class="password-toggle" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Password Strength Meter -->
+                    <div class="strength-meter-container">
+                        <span class="strength-label">Password Strength: <strong id="strength-value">None</strong></span>
+                        <div class="strength-bar-segments">
+                            <span class="segment"></span>
+                            <span class="segment"></span>
+                            <span class="segment"></span>
+                            <span class="segment"></span>
+                        </div>
+                    </div>
+
+                    <!-- Agreement Actions Row -->
+                    <div class="auth-agreement-row">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="agree-terms" name="agree" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" class="terms-link">Terms & Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">
+                        <span>Create Account</span>
+                        <i class="fa-solid fa-arrow-right btn-arrow"></i>
+                    </button>
+
+                    <!-- Divider -->
+                    <div class="divider">
+                        <span>or continue with</span>
+                    </div>
+
+                    <!-- Google Button -->
+                    <button type="button" class="google-btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
+                        <span>Continue with Google</span>
+                    </button>
+
+                </form>
+
+                <!-- Footer Link -->
+                <footer class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Login</a></p>
+                </footer>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Copyright -->
+    <div class="page-footer-copyright">
+        &copy; 2024 Platter. All rights reserved.
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/signup.js"></script>
+
+</body>
+
+</html>
