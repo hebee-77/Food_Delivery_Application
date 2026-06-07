@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platter | Premium Food Delivery</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Background Blobs -->
+    <div class="blur blob-1"></div>
+    <div class="blur blob-2"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <div class="logo">
+            <span>P</span>latter
+        </div>
+
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Restaurants</a>
+            <a href="#">Categories</a>
+            <a href="#">Offers</a>
+            <a href="#">Partners</a>
+        </nav>
+
+        <div class="nav-actions">
+
+            <button class="login-btn">
+                Login
+            </button>
+
+            <button class="signup-btn">
+                Sign Up
+            </button>
+
+            <div class="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu">
+        <a href="#">Home</a>
+        <a href="#">Restaurants</a>
+        <a href="#">Categories</a>
+        <a href="#">Offers</a>
+        <a href="#">Partners</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <!-- LEFT -->
+        <div class="hero-left">
+
+            <h1 id="hero-title">
+                Exceptional Food.
+                <span>Delivered</span>
+                In Minutes.
+            </h1>
+
+            <p id="hero-description">
+                Order from curated restaurants,
+                track deliveries in real time,
+                and enjoy meals crafted with care.
+            </p>
+
+            <div class="search-container">
+
+                <div class="location-field">
+
+                    <i class="fa-solid fa-location-dot location-pin"></i>
+
+                    <div class="location-copy">
+                        <span>Delivering to</span>
+                        <strong>Whitefield, Bangalore</strong>
+                    </div>
+
+                    <button class="location-dropdown"
+                            aria-label="Change delivery location">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                </div>
+
+                <button class="locate-btn"
+                        aria-label="Use current location">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                </button>
+
+                <button class="find-btn">
+                    <span>Find Restaurants</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </div>
+
+            <div class="hero-buttons">
+
+                <button class="primary-btn">
+                    Order Now
+                </button>
+
+                <button class="secondary-btn">
+                    Become Partner
+                </button>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div>
+                    <h3>10K+</h3>
+                    <span>Orders</span>
+                </div>
+
+                <div>
+                    <h3>500+</h3>
+                    <span>Restaurants</span>
+                </div>
+
+                <div>
+                    <h3>4.9★</h3>
+                    <span>Rating</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="hero-right">
+
+            <img
+                id="food-slider"
+                src="images/hero/pizza.png"
+                alt="Food Image">
+
+            <img
+                class="rider"
+                src="images/hero/rider.png"
+                alt="Delivery Rider">
+
+            <div class="slider-dots">
+
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- STATS SECTION -->
+
+    <section class="stats-section">
+
+        <div class="stat-card">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h2>10K+</h2>
+            <p>Orders Delivered</p>
+        </div>
+
+        <div class="stat-card">
+            <i class="fa-solid fa-store"></i>
+            <h2>500+</h2>
+            <p>Restaurant Partners</p>
+        </div>
+
+        <div class="stat-card">
+            <i class="fa-solid fa-star"></i>
+            <h2>4.9</h2>
+            <p>Customer Rating</p>
+        </div>
+
+        <div class="stat-card">
+            <i class="fa-solid fa-clock"></i>
+            <h2>25 Min</h2>
+            <p>Average Delivery</p>
+        </div>
+
+    </section>
+
+    <!-- =========================
+     FOOD CATEGORIES
+========================= -->
+
+<section class="categories">
+
+    <div class="section-title">
+
+        <h2>Browse By Category</h2>
+
+        <p>
+            Explore your favorite cuisines and dishes
+        </p>
+
+    </div>
+
+   <div class="category-slider">
+
+    <div class="category-item">
+        <img src="images/categories/pizza.png" alt="">
+        <span>Pizza</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/burger.png" alt="">
+        <span>Burger</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/indian.png" alt="">
+        <span>Indian</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/chinese.png" alt="">
+        <span>Chinese</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/healthy.png" alt="">
+        <span>Healthy</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/dessert.png" alt="">
+        <span>Desserts</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/coffee.png" alt="">
+        <span>Coffee</span>
+    </div>
+
+    <div class="category-item">
+        <img src="images/categories/biryani.png" alt="">
+        <span>Biryani</span>
+    </div>
+
+</div>
+
+</section>
+
+<!-- =========================
+     POPULAR RESTAURANTS
+========================= -->
+
+<section class="restaurants">
+
+    <div class="section-title">
+
+        <h2>Popular Restaurants</h2>
+
+        <p>
+            Discover the best restaurants near you
+        </p>
+
+    </div>
+
+    <div class="restaurant-grid">
+
+        <!-- Card 1 -->
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <img
+                    src="images/Restaurant/burger.jpg"
+                    alt="Burger Hub">
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-meta">
+
+                    <span class="rating">
+                        ★ 4.8
+                    </span>
+
+                    <span class="time">
+                        20-25 min
+                    </span>
+
+                </div>
+
+                <h3>Burger Hub</h3>
+
+                <p>
+                    Fast Food • Burgers
+                </p>
+
+                <span class="price">
+                    ₹200 for one
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Card 2 -->
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <img
+                    src="images/Restaurant/pizza.jpg"
+                    alt="Pizza Palace">
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-meta">
+
+                    <span class="rating">
+                        ★ 4.9
+                    </span>
+
+                    <span class="time">
+                        25-30 min
+                    </span>
+
+                </div>
+
+                <h3>Pizza Palace</h3>
+
+                <p>
+                    Italian • Pizza
+                </p>
+
+                <span class="price">
+                    ₹250 for one
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Card 3 -->
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <img
+                    src="images/Restaurant/biryani.jpg"
+                    alt="Biryani House">
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-meta">
+
+                    <span class="rating">
+                        ★ 4.7
+                    </span>
+
+                    <span class="time">
+                        30 min
+                    </span>
+
+                </div>
+
+                <h3>Biryani House</h3>
+
+                <p>
+                    Biryani • Indian
+                </p>
+
+                <span class="price">
+                    ₹220 for one
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- Card 4 -->
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <img
+                    src="images/Restaurant/healthy.jpg"
+                    alt="Green Bowl">
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-meta">
+
+                    <span class="rating">
+                        ★ 4.8
+                    </span>
+
+                    <span class="time">
+                        15-20 min
+                    </span>
+
+                </div>
+
+                <h3>Green Bowl</h3>
+
+                <p>
+                    Healthy • Salads
+                </p>
+
+                <span class="price">
+                    ₹180 for one
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section class="how-it-works">
+
+    <div class="section-title">
+
+        <h2>How It Works</h2>
+
+        <p>
+            Ordering your favorite food has never been easier
+        </p>
+
+    </div>
+
+    <div class="steps-container">
+
+        <!-- Step 1 -->
+
+        <div class="step-card">
+
+            <div class="step-icon">
+                🍽️
+            </div>
+
+            <h3>Choose Food</h3>
+
+            <p>
+                Browse restaurants and explore your favorite dishes.
+            </p>
+
+        </div>
+
+        <!-- Step 2 -->
+
+        <div class="step-arrow">
+            →
+        </div>
+
+        <!-- Step 3 -->
+
+        <div class="step-card">
+
+            <div class="step-icon">
+                📦
+            </div>
+
+            <h3>Place Order</h3>
+
+            <p>
+                Add items to your cart and complete checkout securely.
+            </p>
+
+        </div>
+
+        <!-- Arrow -->
+
+        <div class="step-arrow">
+            →
+        </div>
+
+        <!-- Step 3 -->
+
+        <div class="step-card">
+
+            <div class="step-icon">
+                🛵
+            </div>
+
+            <h3>Fast Delivery</h3>
+
+            <p>
+                Track your order live and enjoy fresh food at your doorstep.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     TESTIMONIALS
+========================= -->
+
+<section class="testimonials">
+
+    <div class="section-title">
+
+        <h2>What Our Customers Say</h2>
+
+        <p>
+            Trusted by thousands of food lovers every day
+        </p>
+
+    </div>
+
+    <div class="testimonial-grid">
+
+        <!-- Testimonial 1 -->
+
+        <div class="testimonial-card">
+
+            <div class="testimonial-header">
+
+                <div class="user-avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <h4>Alex Johnson</h4>
+
+                    <span>Food Enthusiast</span>
+
+                </div>
+
+            </div>
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p>
+                The food always arrives hot and fresh.
+                The ordering experience is incredibly smooth.
+            </p>
+
+        </div>
+
+        <!-- Testimonial 2 -->
+
+        <div class="testimonial-card">
+
+            <div class="testimonial-header">
+
+                <div class="user-avatar">
+                    S
+                </div>
+
+                <div>
+
+                    <h4>Sarah Williams</h4>
+
+                    <span>Regular Customer</span>
+
+                </div>
+
+            </div>
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p>
+                Fast delivery, amazing restaurant options,
+                and a beautiful user experience.
+            </p>
+
+        </div>
+
+        <!-- Testimonial 3 -->
+
+        <div class="testimonial-card">
+
+            <div class="testimonial-header">
+
+                <div class="user-avatar">
+                    D
+                </div>
+
+                <div>
+
+                    <h4>David Lee</h4>
+
+                    <span>Verified User</span>
+
+                </div>
+
+            </div>
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p>
+                Easily one of the best food delivery
+                platforms I have used recently.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     BECOME A PARTNER
+========================= -->
+
+<section class="partner-section">
+
+    <div class="partner-content">
+
+        <h2>Grow With Platter</h2>
+
+        <p>
+            Join our growing network of restaurant partners
+            and delivery professionals. Reach more customers
+            and grow your business faster.
+        </p>
+
+        <div class="partner-buttons">
+
+            <button class="restaurant-btn">
+                Join as Restaurant
+            </button>
+
+            <button class="delivery-btn">
+                Become Delivery Partner
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <div class="footer-grid">
+
+        <!-- Brand -->
+
+        <div class="footer-column">
+
+            <h3>
+                <span>P</span>latter
+            </h3>
+
+            <p>
+                Delivering delicious meals from the best
+                restaurants directly to your doorstep.
+            </p>
+
+        </div>
+
+        <!-- Company -->
+
+        <div class="footer-column">
+
+            <h4>Company</h4>
+
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+            <a href="#">Blog</a>
+
+        </div>
+
+        <!-- Services -->
+
+        <div class="footer-column">
+
+            <h4>Services</h4>
+
+            <a href="#">Restaurants</a>
+            <a href="#">Food Delivery</a>
+            <a href="#">Offers</a>
+            <a href="#">Partner Program</a>
+
+        </div>
+
+        <!-- Legal -->
+
+        <div class="footer-column">
+
+            <h4>Legal</h4>
+
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 Platter. All Rights Reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
