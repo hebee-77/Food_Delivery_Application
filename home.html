@@ -1,0 +1,1666 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platter | Premium Food Delivery Home</title>
+
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+    <!-- Background Decorative Blobs -->
+    <div class="blur blob-1"></div>
+    <div class="blur blob-2"></div>
+    <div class="blur blob-3"></div>
+
+    <!-- PREMIUM NAVBAR -->
+    <header class="navbar" id="mainNavbar">
+        <div class="navbar-container">
+            <!-- Brand Logo -->
+            <div class="logo" onclick="window.location.reload();" style="cursor: pointer;">
+                <span>P</span>latter
+            </div>
+
+            <!-- Navbar Search (Center) -->
+            <div class="nav-search-bar">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Search dishes, restaurants or cuisines..." id="navSearchInput">
+                <div class="search-shortcut">⌘K</div>
+            </div>
+
+            <!-- Navbar Actions (Right) -->
+            <div class="nav-actions">
+                <!-- Location Display -->
+                <div class="location-selector" id="locationTrigger">
+                    <i class="fa-solid fa-location-dot location-icon"></i>
+                    <div class="location-details">
+                        <span class="location-label">Deliver to</span>
+                        <strong class="location-value" id="currentLocationText">Whitefield, Bangalore</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow-icon"></i>
+
+                    <!-- Location Dropdown Menu -->
+                    <div class="location-dropdown" id="locationDropdown">
+                        <div class="dropdown-header">Select Address</div>
+                        <div class="dropdown-item active" data-location="Whitefield, Bangalore">
+                            <i class="fa-solid fa-house"></i>
+                            <div class="item-text">
+                                <strong>Home</strong>
+                                <span>Whitefield, Bangalore</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-item" data-location="Indiranagar, Bangalore">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div class="item-text">
+                                <strong>Office</strong>
+                                <span>Indiranagar, Bangalore</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <button class="locate-me-btn" id="locateMeBtn">
+                            <i class="fa-solid fa-location-crosshairs"></i> Locate Me
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Favorites Icon Button -->
+                <a href="#" class="nav-btn-icon" aria-label="Favorites" title="Favorites">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="badge badge-primary">3</span>
+                </a>
+
+                <!-- Cart Icon Button -->
+                <a href="#" class="nav-btn-icon" aria-label="Cart" title="Shopping Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge badge-secondary">2</span>
+                </a>
+
+                <!-- Profile Button -->
+                <div class="profile-container" id="profileTrigger">
+                    <button class="profile-avatar-btn" aria-label="User profile">
+                        <div class="avatar-initials">JD</div>
+                    </button>
+
+                    <!-- Profile Dropdown -->
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="profile-dropdown-header">
+                            <strong>John Doe</strong>
+                            <span>johndoe@example.com</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="profile-item"><i class="fa-regular fa-user"></i> My Profile</a>
+                        <a href="#" class="profile-item"><i class="fa-solid fa-clock-rotate-left"></i> Order
+                            History</a>
+                        <a href="#" class="profile-item"><i class="fa-solid fa-wallet"></i> Platter Wallet</a>
+                        <a href="#" class="profile-item"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="profile-item logout-link"><i
+                                class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Hamburger Menu Button -->
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE SIDE DRAWER MENU -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <div class="logo">
+                <span>P</span>latter
+            </div>
+            <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="drawer-body">
+            <!-- Mobile Search -->
+            <div class="drawer-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search Platter..." id="drawerSearchInput">
+            </div>
+
+            <!-- Mobile Location -->
+            <div class="drawer-location" id="drawerLocationTrigger">
+                <div class="loc-left">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Whitefield, Bangalore</span>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <!-- Mobile Links -->
+            <nav class="drawer-nav">
+                <a href="#" class="drawer-nav-item"><i class="fa-regular fa-heart"></i> Favorites <span
+                        class="nav-badge">3</span></a>
+                <a href="#" class="drawer-nav-item"><i class="fa-solid fa-bag-shopping"></i> My Cart <span
+                        class="nav-badge sec">2</span></a>
+                <a href="#" class="drawer-nav-item"><i class="fa-regular fa-user"></i> My Profile</a>
+                <a href="#" class="drawer-nav-item"><i class="fa-solid fa-ticket"></i> Offers & Coupons</a>
+                <a href="#" class="drawer-nav-item"><i class="fa-solid fa-wallet"></i> Platter Cash</a>
+                <a href="#" class="drawer-nav-item"><i class="fa-solid fa-headset"></i> Help & Support</a>
+            </nav>
+        </div>
+        <div class="drawer-footer">
+            <button class="drawer-logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+        </div>
+    </div>
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- WELCOME HERO SECTION -->
+    <main class="hero-section">
+        <div class="hero-container">
+
+            <!-- Left Side - Content & Search -->
+            <div class="hero-left">
+                <!-- Welcome Back Badge -->
+                <div class="welcome-badge">
+                    <i class="fa-solid fa-fire-flame-curved badge-icon"></i>
+                    <span>Welcome back, John!</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="hero-title">
+                    What would you<br>
+                    like to <span class="gradient-text">eat today?</span>
+                </h1>
+
+                <!-- Supporting Description -->
+                <p class="hero-subtitle">
+                    Order from Bangalore's highest-rated culinary hotspots. Real-time delivery tracking, zero
+                    delivery
+                    fees on your first 3 orders.
+                </p>
+
+                <!-- Premium tabbed search area -->
+                <div class="premium-search-box">
+                    <div class="search-tabs">
+                        <button class="tab-btn active" data-search-mode="restaurants">
+                            <i class="fa-solid fa-store"></i>
+                            <span>Restaurants</span>
+                        </button>
+                        <button class="tab-btn" data-search-mode="dishes">
+                            <i class="fa-solid fa-utensils"></i>
+                            <span>Dishes</span>
+                        </button>
+                        <button class="tab-btn" data-search-mode="cuisines">
+                            <i class="fa-solid fa-bowl-food"></i>
+                            <span>Cuisines</span>
+                        </button>
+                    </div>
+
+                    <div class="search-input-field">
+                        <i class="fa-solid fa-magnifying-glass field-search-icon"></i>
+                        <input type="text" placeholder="Search premium restaurants near you..." id="heroSearchInput"
+                            autocomplete="off">
+                        <button class="search-action-btn" id="heroSearchBtn">
+                            <span>Search</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Search Suggestions/Dropdown placeholder -->
+                    <div class="search-suggestions" id="searchSuggestions">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Hero Action Buttons -->
+                <div class="hero-actions">
+                    <button class="btn btn-primary" id="exploreBtn">
+                        Explore Now
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="btn btn-secondary" id="offersBtn">
+                        View Offers
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side - Hero Image & Floating Cards -->
+            <div class="hero-right">
+                <!-- Visual Container -->
+                <div class="hero-visual-wrapper">
+                    <!-- Glow Behind Image -->
+                    <div class="visual-glow"></div>
+
+                    <!-- Large Food Image -->
+                    <img src="images/hero/pizza.png" alt="Delicious Premium Pizza" class="main-food-img"
+                        id="heroFoodImg">
+                </div>
+
+                <!-- Floating Cards -->
+                <!-- Floating Card 1: Rating -->
+                <div class="floating-card float-card-rating">
+                    <div class="card-icon-container rating-icon">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="card-info">
+                        <strong>4.9 Rating</strong>
+                        <span>Customer Choice</span>
+                    </div>
+                </div>
+
+                <!-- Floating Card 2: Delivery -->
+                <div class="floating-card float-card-delivery">
+                    <div class="card-icon-container delivery-icon">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="card-info">
+                        <strong>25 Min</strong>
+                        <span>Average Delivery</span>
+                    </div>
+                </div>
+
+                <!-- Floating Card 3: Restaurants -->
+                <div class="floating-card float-card-restaurants">
+                    <div class="card-icon-container partners-icon">
+                        <i class="fa-solid fa-burger"></i>
+                    </div>
+                    <div class="card-info">
+                        <strong>500+</strong>
+                        <span>Premium Outlets</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ==========================================
+         SECTION 1: OFFERS SLIDER (PHASE 2)
+         ========================================== -->
+    <section class="offers-section scroll-reveal">
+        <div class="offers-slider-container">
+            <div class="offers-track" id="offersTrack">
+
+                <!-- Slide 1: 50% OFF -->
+                <div class="offer-slide active" data-slide-index="0">
+                    <div class="offer-card-bg" style="background: linear-gradient(135deg, #FF9F1C, #FF4040);">
+                        <div class="offer-card-glow"></div>
+                        <div class="offer-card-content">
+                            <span class="offer-badge-pill"><i class="fa-solid fa-fire"></i> Special Welcome
+                                Offer</span>
+                            <h2 class="offer-title-main">50% OFF</h2>
+                            <p class="offer-subtitle-main">On Your First Order</p>
+                            <p class="offer-description-main">Dive into a premium culinary experience with 50% off
+                                up to
+                                ₹150. Valid on all premium restaurants.</p>
+                            <div class="offer-coupon-code">Use Code: <strong>PLATTER50</strong></div>
+                            <button class="offer-action-btn">
+                                <span>Claim Now</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="offer-card-graphic">
+                            <img src="images/hero/pizza.png" alt="Delicious Pizza Illustration"
+                                class="offer-graphic-img img-pizza">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Free Delivery -->
+                <div class="offer-slide" data-slide-index="1">
+                    <div class="offer-card-bg" style="background: linear-gradient(135deg, #2EC4B6, #0077B6);">
+                        <div class="offer-card-glow"></div>
+                        <div class="offer-card-content">
+                            <span class="offer-badge-pill"><i class="fa-solid fa-truck-fast"></i> Daily
+                                Savings</span>
+                            <h2 class="offer-title-main">Free Delivery</h2>
+                            <p class="offer-subtitle-main">On Orders Above ₹299</p>
+                            <p class="offer-description-main">Forget delivery charges. Get your food delivered
+                                straight
+                                to your door, steaming hot, completely free.</p>
+                            <div class="offer-coupon-code">Automatically Applied at Checkout</div>
+                            <button class="offer-action-btn">
+                                <span>Order Now</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="offer-card-graphic">
+                            <img src="images/hero/burger.png" alt="Gourmet Burger Illustration"
+                                class="offer-graphic-img img-burger">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: BOGO Offer -->
+                <div class="offer-slide" data-slide-index="2">
+                    <div class="offer-card-bg" style="background: linear-gradient(135deg, #E63946, #800f2f);">
+                        <div class="offer-card-glow"></div>
+                        <div class="offer-card-content">
+                            <span class="offer-badge-pill"><i class="fa-solid fa-gift"></i> Double Feast</span>
+                            <h2 class="offer-title-main">Buy 1 Get 1</h2>
+                            <p class="offer-subtitle-main">On Selected Restaurants</p>
+                            <p class="offer-description-main">Twice the flavor, half the cost! Treat yourself and a
+                                friend with a complimentary second dish.</p>
+                            <div class="offer-coupon-code">Use Code: <strong>DOUBLEFEAST</strong></div>
+                            <button class="offer-action-btn">
+                                <span>Find Restaurants</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="offer-card-graphic">
+                            <img src="images/hero/thali.png" alt="Indian Thali Illustration"
+                                class="offer-graphic-img img-thali">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Slider Controls -->
+            <button class="offer-nav-btn prev-btn" id="offerPrevBtn" aria-label="Previous Slide">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="offer-nav-btn next-btn" id="offerNextBtn" aria-label="Next Slide">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <!-- Pagination Indicators -->
+            <div class="offer-pagination-dots" id="offerPagination">
+                <span class="offer-pag-dot active" data-index="0"></span>
+                <span class="offer-pag-dot" data-index="1"></span>
+                <span class="offer-pag-dot" data-index="2"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 2: FOOD CATEGORIES (PHASE 2)
+         ========================================== -->
+    <section class="categories-section scroll-reveal">
+        <div class="categories-header">
+            <div class="categories-titles">
+                <h2 class="section-title-phase2">Browse By Category</h2>
+                <p class="section-subtitle-phase2">Explore your favorite cuisines and dishes</p>
+            </div>
+            <div class="categories-nav-arrows">
+                <button class="category-nav-arrow arrow-left-btn" id="catLeftBtn" aria-label="Scroll Categories Left">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="category-nav-arrow arrow-right-btn" id="catRightBtn"
+                    aria-label="Scroll Categories Right">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="categories-slider-outer">
+            <!-- Fade Overlay Gradients -->
+            <div class="category-fade-overlay fade-overlay-left"></div>
+            <div class="category-fade-overlay fade-overlay-right"></div>
+
+            <div class="categories-track" id="categoriesTrack">
+                <!-- Pizza -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/pizza.png" alt="Pizza" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Pizza</span>
+                </div>
+
+                <!-- Burger -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/burger.png" alt="Burger" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Burger</span>
+                </div>
+
+                <!-- Chinese -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/chinese.png" alt="Chinese" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Chinese</span>
+                </div>
+
+                <!-- Biryani -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/biryani.png" alt="Biryani" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Biryani</span>
+                </div>
+
+                <!-- Coffee -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/coffee.png" alt="Coffee" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Coffee</span>
+                </div>
+
+                <!-- Desserts -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/dessert.png" alt="Desserts" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Desserts</span>
+                </div>
+
+                <!-- Healthy -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/healthy.png" alt="Healthy" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Healthy</span>
+                </div>
+
+                <!-- Indian -->
+                <div class="category-card-item">
+                    <div class="category-circle-wrapper">
+                        <img src="images/categories/indian.png" alt="Indian" class="category-circle-img">
+                        <div class="category-circle-glow"></div>
+                    </div>
+                    <span class="category-card-name">Indian</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+             SECTION 3: POPULAR RESTAURANTS (PHASE 3)
+             ========================================== -->
+    <section class="restaurants-section scroll-reveal">
+        <div class="restaurants-container">
+            <div class="section-header-phase3">
+                <h2 class="section-title-phase3">Popular Restaurants</h2>
+                <p class="section-subtitle-phase3">Discover the highest-rated restaurants near you</p>
+            </div>
+
+            <div class="restaurants-grid">
+                <!-- Card 1: Burger Hub -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/Restaurant/burger.jpg" alt="Burger Hub" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-popular">Popular</span>
+                        <span class="restaurant-open-status">Open Now</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Burger Hub</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Fast Food • Burgers</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 20-25 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 1.5 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹200 for one</span>
+                            <span class="delivery-fee-badge free">Free Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Pizza Palace -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/Restaurant/pizza.jpg" alt="Pizza Palace" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-top-rated">Top Rated</span>
+                        <span class="restaurant-open-status">Open Now</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Pizza Palace</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Italian • Pizza</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 25-30 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 2.2 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹250 for one</span>
+                            <span class="delivery-fee-badge free">Free Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: Biryani House -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/Restaurant/biryani.jpg" alt="Biryani House" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-trending">Trending</span>
+                        <span class="restaurant-open-status">Open Now</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Biryani House</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Biryani • Indian</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 30-35 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 3.1 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹220 for one</span>
+                            <span class="delivery-fee-badge paid">₹30 Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4: Green Bowl -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/Restaurant/healthy.jpg" alt="Green Bowl" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-popular">Popular</span>
+                        <span class="restaurant-open-status">Open Now</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Green Bowl</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Healthy • Salads</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 15-20 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 1.2 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹180 for one</span>
+                            <span class="delivery-fee-badge free">Free Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 5: Wok Express -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/auth/login-food.png" alt="Wok Express" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-new">New</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Wok Express</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.6</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Asian • Chinese</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 25-30 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 2.8 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹190 for one</span>
+                            <span class="delivery-fee-badge paid">₹40 Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 6: Coffee Corner -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/auth/bg-pasta.png" alt="Coffee Corner" class="restaurant-cover-img">
+                        <span class="restaurant-open-status">Open Now</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Coffee Corner</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.5</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Beverages • Desserts</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 10-15 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 0.8 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹120 for one</span>
+                            <span class="delivery-fee-badge free">Free Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 7: Spice Garden -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/auth/signup-food.png" alt="Spice Garden" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-trending">Trending</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Spice Garden</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.6</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">North Indian • Curry</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 35-40 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 4.0 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹240 for one</span>
+                            <span class="delivery-fee-badge paid">₹50 Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 8: Sweet Treats -->
+                <div class="restaurant-card-item">
+                    <div class="card-image-container">
+                        <img src="images/auth/bg-salad.png" alt="Sweet Treats" class="restaurant-cover-img">
+                        <span class="restaurant-badge badge-popular">Popular</span>
+                        <span class="restaurant-open-status">Open Now</span>
+                        <button class="card-favorite-btn" aria-label="Add to Favorites" title="Favorite">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-details-container">
+                        <div class="card-first-row">
+                            <h3 class="restaurant-name-title">Sweet Treats</h3>
+                            <div class="rating-chip-badge">
+                                <i class="fa-solid fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <p class="cuisine-type-desc">Bakery • Desserts</p>
+                        <div class="card-meta-details">
+                            <div class="meta-item"><i class="fa-solid fa-circle-notch timer-icon"></i> 15-20 min</div>
+                            <div class="meta-item"><i class="fa-solid fa-location-dot"></i> 1.6 km</div>
+                        </div>
+                        <div class="card-pricing-row">
+                            <span class="pricing-per-person">₹150 for one</span>
+                            <span class="delivery-fee-badge free">Free Delivery</span>
+                        </div>
+                        <button class="view-menu-action-btn">
+                            <span>View Menu</span>
+                            <i class="fa-solid fa-utensils"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4: RECOMMENDED DISHES (PHASE 4)
+         ========================================== -->
+    <section class="dishes-section scroll-reveal">
+        <div class="dishes-container">
+            <div class="section-header-phase4">
+                <h2 class="section-title-phase4">Recommended For You</h2>
+                <p class="section-subtitle-phase4">Handpicked dishes based on what's trending and most loved by
+                    customers</p>
+            </div>
+
+            <div class="dishes-grid">
+                <!-- Dish 1: Margherita Pizza -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/auth/bg-pizza.png" alt="Margherita Pizza" class="dish-cover-img">
+                        <span class="dish-badge badge-trending"><i class="fa-solid fa-fire"></i> Trending</span>
+                        <div class="dish-indicator veg" title="Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Margherita Pizza</h3>
+                            <span class="dish-calories">280 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Pizza Palace</p>
+                        <p class="dish-short-desc">Classic hand-stretched crust topped with fresh marinara sauce,
+                            mozzarella cheese, and fresh basil.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.8</div>
+                            <span class="dish-price-tag">₹249</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 2: Chicken Burger -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/hero/burger.png" alt="Chicken Burger" class="dish-cover-img">
+                        <span class="dish-badge badge-bestseller"><i class="fa-solid fa-star"></i> Bestseller</span>
+                        <div class="dish-indicator non-veg" title="Non-Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Chicken Burger</h3>
+                            <span class="dish-calories">350 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Burger Hub</p>
+                        <p class="dish-short-desc">Crispy golden chicken patty layered with lettuce, cheddar cheese, and
+                            signature burger sauce.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.7</div>
+                            <span class="dish-price-tag">₹189</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 3: Veg Biryani -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/Restaurant/biryani.jpg" alt="Veg Biryani" class="dish-cover-img">
+                        <span class="dish-badge badge-new"><i class="fa-solid fa-wand-magic-sparkles"></i> New</span>
+                        <div class="dish-indicator veg" title="Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Veg Biryani</h3>
+                            <span class="dish-calories">310 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Biryani House</p>
+                        <p class="dish-short-desc">Fragrant basmati rice cooked with layered garden vegetables, saffron,
+                            aromatic spices, and mint.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.6</div>
+                            <span class="dish-price-tag">₹219</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 4: Paneer Bowl -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/Restaurant/healthy.jpg" alt="Paneer Bowl" class="dish-cover-img">
+                        <span class="dish-badge badge-favorite"><i class="fa-solid fa-thumbs-up"></i> Favorite</span>
+                        <div class="dish-indicator veg" title="Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Paneer Bowl</h3>
+                            <span class="dish-calories">240 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Green Bowl</p>
+                        <p class="dish-short-desc">Grilled paneer cubes served on a bed of warm quinoa, sautéed
+                            broccoli, bell peppers, and lemon dressing.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.7</div>
+                            <span class="dish-price-tag">₹199</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 5: Cold Coffee -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/categories/coffee.png" alt="Cold Coffee" class="dish-cover-img">
+                        <div class="dish-indicator veg" title="Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Cold Coffee</h3>
+                            <span class="dish-calories">180 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Coffee Corner</p>
+                        <p class="dish-short-desc">Rich double-shot espresso blended with chilled creamy milk, chocolate
+                            syrup, and vanilla ice cream.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.5</div>
+                            <span class="dish-price-tag">₹129</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 6: Chocolate Cake -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/auth/login-food.png" alt="Chocolate Cake" class="dish-cover-img">
+                        <span class="dish-badge badge-bestseller"><i class="fa-solid fa-star"></i> Bestseller</span>
+                        <div class="dish-indicator veg" title="Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Chocolate Cake</h3>
+                            <span class="dish-calories">320 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Sweet Treats</p>
+                        <p class="dish-short-desc">Decadent three-layered dark chocolate cake layered with rich
+                            chocolate fudge frosting.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.8</div>
+                            <span class="dish-price-tag">₹149</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 7: Hakka Noodles -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/auth/bg-pasta.png" alt="Hakka Noodles" class="dish-cover-img">
+                        <span class="dish-badge badge-trending"><i class="fa-solid fa-fire"></i> Trending</span>
+                        <div class="dish-indicator veg" title="Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Hakka Noodles</h3>
+                            <span class="dish-calories">290 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Wok Express</p>
+                        <p class="dish-short-desc">Wok-tossed noodles sautéed with soy sauce, julienned carrots, bell
+                            peppers, spring onions, and garlic.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.6</div>
+                            <span class="dish-price-tag">₹179</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dish 8: Fried Rice -->
+                <div class="dish-card-item">
+                    <div class="dish-image-container">
+                        <img src="images/auth/bg-sauce.png" alt="Fried Rice" class="dish-cover-img">
+                        <div class="dish-indicator non-veg" title="Non-Vegetarian"><span class="dot"></span></div>
+                        <button class="dish-wishlist-btn" aria-label="Add to Wishlist" title="Wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="dish-details-container">
+                        <div class="dish-first-row">
+                            <h3 class="dish-name-title">Fried Rice</h3>
+                            <span class="dish-calories">330 kcal</span>
+                        </div>
+                        <p class="dish-restaurant-name">Wok Express</p>
+                        <p class="dish-short-desc">Premium long-grain basmati rice stir-fried with scrambled eggs, fresh
+                            vegetables, scallions, and light seasoning.</p>
+                        <div class="dish-meta-row">
+                            <div class="dish-rating-badge"><i class="fa-solid fa-star"></i> 4.5</div>
+                            <span class="dish-price-tag">₹169</span>
+                        </div>
+                        <div class="dish-action-row">
+                            <button class="quick-view-btn">Quick View</button>
+                            <div class="cart-action-wrapper">
+                                <button class="add-to-cart-btn">Add</button>
+                                <div class="qty-selector-wrapper">
+                                    <button class="qty-btn qty-minus-btn" aria-label="Decrease quantity"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                    <span class="qty-number-display">1</span>
+                                    <button class="qty-btn qty-plus-btn" aria-label="Increase quantity"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 5: TRENDING NEAR YOU (PHASE 5)
+         ========================================== -->
+    <section class="trending-section scroll-reveal">
+        <div class="trending-container">
+            <div class="section-header-phase5">
+                <div class="header-left">
+                    <h2 class="section-title-phase5">Trending Near You</h2>
+                    <p class="section-subtitle-phase5">Most ordered dishes and restaurants in your area right now</p>
+                </div>
+                <div class="header-right">
+                    <a href="#" class="view-all-trending-btn">
+                        <span>View All Trending</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="trending-slider-wrapper">
+                <!-- Navigation arrows -->
+                <button class="trending-nav-btn prev-btn" aria-label="Previous slide" disabled>
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="trending-nav-btn next-btn" aria-label="Next slide">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <div class="trending-slider-track-container">
+                    <div class="trending-slider-track">
+                        <!-- Card 1: Double Cheese Burger -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/Restaurant/burger.jpg" alt="Double Cheese Burger"
+                                    class="trending-cover-img">
+                                <span class="trending-badge badge-now"><i class="fa-solid fa-fire"></i> Trending
+                                    Now</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Burger
+                                        Hub</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.9</span>
+                                </div>
+                                <h3 class="trending-dish-name">Double Cheese Burger</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>1.2k orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 20 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 1.2 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹249</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Farmhouse Pizza -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/Restaurant/pizza.jpg" alt="Farmhouse Pizza" class="trending-cover-img">
+                                <span class="trending-badge badge-loved"><i class="fa-solid fa-heart"></i> Most
+                                    Loved</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Pizza
+                                        Palace</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.8</span>
+                                </div>
+                                <h3 class="trending-dish-name">Farmhouse Pizza</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>980 orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 25 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 1.8 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹329</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Chicken Dum Biryani -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/Restaurant/biryani.jpg" alt="Chicken Dum Biryani"
+                                    class="trending-cover-img">
+                                <span class="trending-badge badge-rated"><i class="fa-solid fa-trophy"></i> Top
+                                    Rated</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Biryani
+                                        House</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.9</span>
+                                </div>
+                                <h3 class="trending-dish-name">Chicken Dum Biryani</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>1.5k orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 30 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 2.2 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹289</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Cold Coffee -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/categories/coffee.png" alt="Cold Coffee" class="trending-cover-img">
+                                <span class="trending-badge badge-favorite"><i class="fa-solid fa-thumbs-up"></i>
+                                    Customer Favorite</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Coffee
+                                        Corner</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.8</span>
+                                </div>
+                                <h3 class="trending-dish-name">Cold Coffee</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>700 orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 15 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 0.8 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹149</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Quinoa Salad -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/Restaurant/healthy.jpg" alt="Quinoa Salad" class="trending-cover-img">
+                                <span class="trending-badge badge-now"><i class="fa-solid fa-fire"></i> Trending
+                                    Now</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Green
+                                        Bowl</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.7</span>
+                                </div>
+                                <h3 class="trending-dish-name">Quinoa Salad</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>500 orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 18 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 1.5 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹219</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Red Velvet Pastry -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/categories/dessert.png" alt="Red Velvet Pastry"
+                                    class="trending-cover-img">
+                                <span class="trending-badge badge-loved"><i class="fa-solid fa-heart"></i> Most
+                                    Loved</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Sweet
+                                        Treats</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.8</span>
+                                </div>
+                                <h3 class="trending-dish-name">Red Velvet Pastry</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>650 orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 12 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 0.6 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹139</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 7: Schezwan Noodles -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/categories/chinese.png" alt="Schezwan Noodles"
+                                    class="trending-cover-img">
+                                <span class="trending-badge badge-rated"><i class="fa-solid fa-trophy"></i> Top
+                                    Rated</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Wok
+                                        Express</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.6</span>
+                                </div>
+                                <h3 class="trending-dish-name">Schezwan Noodles</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>850 orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 22 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 2.5 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹199</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 8: Paneer Tikka Masala -->
+                        <div class="trending-card-item">
+                            <div class="trending-image-container">
+                                <img src="images/hero/thali.png" alt="Paneer Tikka Masala" class="trending-cover-img">
+                                <span class="trending-badge badge-favorite"><i class="fa-solid fa-thumbs-up"></i>
+                                    Customer Favorite</span>
+                            </div>
+                            <div class="trending-details-container">
+                                <div class="trending-restaurant-row">
+                                    <span class="trending-restaurant-name"><i class="fa-solid fa-store"></i> Spice
+                                        Garden</span>
+                                    <span class="trending-rating-badge"><i class="fa-solid fa-star"></i> 4.7</span>
+                                </div>
+                                <h3 class="trending-dish-name">Paneer Tikka Masala</h3>
+
+                                <div class="trending-orders-row">
+                                    <i class="fa-solid fa-arrow-trend-up"></i>
+                                    <span>1.1k orders this week</span>
+                                </div>
+
+                                <div class="trending-footer-row">
+                                    <div class="trending-meta-details">
+                                        <span><i class="fa-regular fa-clock"></i> 28 min</span>
+                                        <span class="separator">•</span>
+                                        <span><i class="fa-solid fa-location-dot"></i> 1.9 km</span>
+                                    </div>
+                                    <span class="trending-price-tag">₹279</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dots Pagination Navigation -->
+            <div class="trending-dots-container"></div>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SECTION 7: TRUST & SERVICE HIGHLIGHTS (PHASE 8)
+         ========================================== -->
+    <section class="highlights-section scroll-reveal">
+        <div class="highlights-header">
+            <h2 class="highlights-title">Why Customers Love Platter</h2>
+            <p class="highlights-subtitle">Experience premium food delivery designed around your cravings and convenience</p>
+        </div>
+        <div class="highlights-grid">
+            <!-- Card 1: Fast Delivery -->
+            <div class="highlight-card">
+                <div class="highlight-icon-wrapper">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <h3 class="highlight-card-title">Fast Delivery</h3>
+                <p class="highlight-card-desc">Fresh food delivered quickly.</p>
+            </div>
+            <!-- Card 2: Top Rated Restaurants -->
+            <div class="highlight-card">
+                <div class="highlight-icon-wrapper">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <h3 class="highlight-card-title">Top Rated Restaurants</h3>
+                <p class="highlight-card-desc">Carefully curated restaurant partners.</p>
+            </div>
+            <!-- Card 3: Secure Payments -->
+            <div class="highlight-card">
+                <div class="highlight-icon-wrapper">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="highlight-card-title">Secure Payments</h3>
+                <p class="highlight-card-desc">Safe and secure checkout.</p>
+            </div>
+            <!-- Card 4: Exclusive Offers -->
+            <div class="highlight-card">
+                <div class="highlight-icon-wrapper">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+                <h3 class="highlight-card-title">Exclusive Offers</h3>
+                <p class="highlight-card-desc">Special deals every day.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SECTION 8: PREMIUM FOOTER (PHASE 8)
+         ========================================== -->
+    <footer class="premium-footer scroll-reveal">
+        <div class="footer-top-newsletter">
+            <div class="newsletter-content">
+                <div class="newsletter-text-wrapper">
+                    <span class="newsletter-badge"><i class="fa-solid fa-bell animate-swing"></i> Stay Updated</span>
+                    <h3 class="newsletter-heading">Get Exclusive Food Deals</h3>
+                    <p class="newsletter-subheading">Subscribe to our weekly newsletter for premium offers and handpicked culinary highlights.</p>
+                </div>
+                <form class="newsletter-form" id="footer-newsletter-form">
+                    <div class="newsletter-input-group">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" class="newsletter-input" placeholder="Email Address" required autocomplete="off">
+                        <button type="submit" class="newsletter-btn">
+                            <span>Subscribe</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="newsletter-status-message"></div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-main-grid">
+            <!-- Brand & Socials Column -->
+            <div class="footer-brand-column">
+                <a href="home.html" class="footer-logo">
+                    <span class="logo-accent">P</span>latter
+                </a>
+                <p class="footer-tagline">Delivering delicious meals from the best restaurants to your doorstep.</p>
+                <div class="footer-social-links">
+                    <a href="#" class="social-icon-btn" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="Twitter">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Company Column -->
+            <div class="footer-links-column">
+                <h4 class="footer-column-title">Company</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#" class="footer-link">About Us</a></li>
+                    <li><a href="#" class="footer-link">Careers</a></li>
+                    <li><a href="#" class="footer-link">Blog</a></li>
+                    <li><a href="#" class="footer-link">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Services Column -->
+            <div class="footer-links-column">
+                <h4 class="footer-column-title">Services</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#" class="footer-link">Food Delivery</a></li>
+                    <li><a href="#" class="footer-link">Restaurants</a></li>
+                    <li><a href="#" class="footer-link">Offers</a></li>
+                    <li><a href="#" class="footer-link">Partner Program</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Column -->
+            <div class="footer-links-column">
+                <h4 class="footer-column-title">Support</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#" class="footer-link">Help Center</a></li>
+                    <li><a href="#" class="footer-link">FAQs</a></li>
+                    <li><a href="#" class="footer-link">Track Order</a></li>
+                    <li><a href="#" class="footer-link">Customer Care</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal Column -->
+            <div class="footer-links-column">
+                <h4 class="footer-column-title">Legal</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                    <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    <li><a href="#" class="footer-link">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-content">
+                <p class="copyright-text">© 2026 Platter. All Rights Reserved.</p>
+                <p class="credits-text">Made with <i class="fa-solid fa-heart heart-icon" style="color: #FF4B4B; margin: 0 4px;"></i> for food lovers.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==========================================
+         SECTION 6: FLOATING CART & QUICK CHECKOUT (PHASE 6)
+         ========================================== -->
+    <!-- Floating Cart Card (Desktop/Tablet) -->
+    <div class="floating-cart-card">
+        <div class="floating-cart-header">
+            <div class="floating-cart-title">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cart</span>
+            </div>
+            <span class="floating-cart-badge">3</span>
+        </div>
+        <div class="floating-cart-body">
+            <p class="floating-cart-summary">3 Items Added</p>
+            <ul class="floating-cart-items-preview">
+                <li>Chicken Burger</li>
+                <li>Cold Coffee</li>
+                <li>Veg Biryani</li>
+            </ul>
+            <div class="floating-cart-subtotal-row">
+                <span class="subtotal-label">Subtotal:</span>
+                <span class="subtotal-val">₹637</span>
+            </div>
+        </div>
+        <div class="floating-cart-actions">
+            <button class="view-cart-btn-desktop">View Cart</button>
+            <button class="checkout-btn-desktop">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom Cart Bar (Mobile) -->
+    <div class="mobile-sticky-cart-bar">
+        <div class="mobile-cart-bar-left">
+            <i class="fa-solid fa-cart-shopping mobile-cart-icon"></i>
+            <div class="mobile-cart-text-info">
+                <span class="mobile-cart-count">3 Items</span>
+                <span class="mobile-cart-divider">|</span>
+                <span class="mobile-cart-price">₹637</span>
+            </div>
+        </div>
+        <button class="mobile-view-cart-btn">View Cart</button>
+    </div>
+
+    <!-- Side Checkout Drawer Overlay & Backdrop blur -->
+    <div class="cart-drawer-overlay"></div>
+
+    <!-- Side Checkout Drawer Panel Container -->
+    <div class="cart-drawer-content">
+        <div class="drawer-header">
+            <div class="drawer-title-row">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h2>Your Order</h2>
+            </div>
+            <button class="drawer-close-btn" aria-label="Close cart drawer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="drawer-body">
+            <!-- Items Container -->
+            <div class="drawer-items-list-container">
+                <div class="drawer-items-list">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Coupon application block -->
+            <div class="coupon-section">
+                <h3 class="section-title-drawer">Apply Coupon</h3>
+                <div class="coupon-input-wrapper">
+                    <input type="text" id="coupon-code-input" placeholder="Enter coupon code" autocomplete="off">
+                    <button id="apply-coupon-btn">Apply</button>
+                </div>
+                <div class="coupon-chips-row">
+                    <button class="coupon-chip" data-code="PLATTER50">PLATTER50 (50% OFF)</button>
+                    <button class="coupon-chip" data-code="SAVE100">SAVE100 (₹100 Off)</button>
+                    <button class="coupon-chip" data-code="FREEDEL">FREEDEL (Free Del)</button>
+                </div>
+                <div class="coupon-status-message"></div>
+            </div>
+
+            <!-- Price Breakdown Summary -->
+            <div class="price-summary-card">
+                <h3 class="section-title-drawer">Bill Details</h3>
+                <div class="summary-row">
+                    <span>Item Subtotal</span>
+                    <span id="summary-subtotal">₹637</span>
+                </div>
+                <div class="summary-row discount-row" style="display: none;">
+                    <span>Coupon Discount</span>
+                    <span id="summary-discount" class="discount-value">-₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Partner Fee</span>
+                    <span id="summary-delivery">₹40</span>
+                </div>
+                <div class="summary-row savings-row">
+                    <span>Total Savings</span>
+                    <span id="summary-savings" class="accent-savings">₹0</span>
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-row total-row">
+                    <span>To Pay</span>
+                    <span id="summary-total">₹677</span>
+                </div>
+            </div>
+
+            <!-- Empty State Container -->
+            <div class="drawer-empty-state" style="display: none;">
+                <div class="empty-icon-wrapper">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                </div>
+                <h3>Your cart is empty</h3>
+                <p>Browse delicious dishes and add them to satisfy your cravings.</p>
+                <button class="browse-dishes-btn">Browse Delicious Dishes</button>
+            </div>
+        </div>
+
+        <div class="drawer-footer">
+            <button class="checkout-action-btn">Proceed to Checkout</button>
+            <div class="trust-badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>100% Safe and Secure Transactions</span>
+            </div>
+        </div>
+
+        <!-- Checkout success loader/confirmation overlay screen -->
+        <div class="checkout-success-screen">
+            <div class="success-icon-wrapper">
+                <i class="fa-solid fa-circle-check animate-scale"></i>
+            </div>
+            <h2>Order Placed Successfully!</h2>
+            <p>Your premium meal from Platter is on its way. Track your order status in real time.</p>
+            <button class="success-close-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Page JavaScript -->
+    <script src="js/home.js"></script>
+</body>
+
+</html>

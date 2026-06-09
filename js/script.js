@@ -353,3 +353,91 @@ if (categorySlider) {
     }
 
 }
+
+// ======================================
+// PARTNER & DOWNLOAD APP FUNCTIONALITY (PHASE 7)
+// ======================================
+const initStatsCounter = () => {
+    const stats = document.querySelectorAll('.partner-stats-grid .stat-num');
+    if (!stats.length) return;
+    
+    const countUp = (element) => {
+        const target = +element.getAttribute('data-val');
+        const isRating = element.innerText.includes('★') || element.getAttribute('data-val') === '49';
+        const isOrders = element.innerText.includes('K') || element.getAttribute('data-val') === '10';
+        let current = 0;
+        const duration = 2000;
+        const stepTime = 30;
+        const steps = duration / stepTime;
+        const increment = target / steps;
+        
+        let stepCount = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            stepCount++;
+            
+            if (stepCount >= steps) {
+                clearInterval(timer);
+                if (isRating) {
+                    element.innerHTML = '4.9<span style="color: var(--primary);">★</span>';
+                } else if (isOrders) {
+                    element.innerText = '10K+';
+                } else if (target === 500) {
+                    element.innerText = '500+';
+                } else if (target === 25) {
+                    element.innerText = '25 Min';
+                }
+            } else {
+                if (isRating) {
+                    element.innerHTML = (current / 10).toFixed(1) + '<span style="color: var(--primary);">★</span>';
+                } else if (isOrders) {
+                    element.innerText = Math.round(current) + 'K+';
+                } else if (target === 500) {
+                    element.innerText = Math.round(current) + '+';
+                } else if (target === 25) {
+                    element.innerText = Math.round(current) + ' Min';
+                }
+            }
+        }, stepTime);
+    };
+
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const numElement = entry.target;
+                countUp(numElement);
+                statsObserver.unobserve(numElement);
+            }
+        });
+    }, { threshold: 0.4 });
+
+    stats.forEach(stat => statsObserver.observe(stat));
+};
+
+const initScrollReveal = () => {
+    const scrollRevealElements = document.querySelectorAll(".scroll-reveal");
+    if (!scrollRevealElements.length) return;
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("revealed");
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    scrollRevealElements.forEach(el => revealObserver.observe(el));
+};
+
+// Run initializations
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+        initStatsCounter();
+        initScrollReveal();
+    });
+} else {
+    initStatsCounter();
+    initScrollReveal();
+}
