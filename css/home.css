@@ -155,7 +155,7 @@ body {
     box-shadow: var(--shadow-premium);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative; /* needed for mobile-search-overlay absolute positioning */
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Sticky Shrink & Style Change on Scroll */
@@ -183,6 +183,8 @@ body {
     letter-spacing: -1.5px;
     color: var(--text);
     user-select: none;
+    transition: opacity 0.25s ease;
+    flex-shrink: 0;
 }
 
 .logo span {
@@ -249,6 +251,10 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
+    position: relative;
+    z-index: 20; /* always above the expanding search overlay */
+    flex-shrink: 0;
+    transition: opacity 0.25s ease;
 }
 
 /* Location Selector */
@@ -613,7 +619,7 @@ body {
     color: var(--text);
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.25s ease, opacity 0.22s ease;
     flex-shrink: 0;
 }
 
@@ -624,39 +630,52 @@ body {
     background: var(--surface);
 }
 
-/* Expanding overlay — anchored LEFT, expands over the logo (Platter) area */
+/* ============================================================
+   MOBILE SEARCH — Full Navbar Takeover
+   When open: logo + all nav-action buttons fade out,
+   search bar expands to fill the entire navbar.
+   ============================================================ */
+
+/* The overlay: full-width takeover, slides in from left */
 .mobile-search-overlay {
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
     bottom: 0;
-    width: 0;
     display: flex;
     align-items: center;
-    flex-direction: row-reverse; /* close btn on right, input fills left */
     gap: 10px;
+    padding: 0 16px;
     background: rgba(var(--surface-rgb), 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-radius: inherit;
-    padding: 0;
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
+    transform: translateX(-12px) scale(0.98);
     transition:
-        width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.28s ease,
-        padding 0.38s ease;
-    z-index: 10;
+        opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 50;
 }
 
-/* Active / open state — expands to 70% of container from the left */
+/* Open state — fills the navbar */
 .mobile-search-overlay.is-open {
-    width: 70%;
     opacity: 1;
     pointer-events: auto;
-    padding: 0 12px;
+    transform: translateX(0) scale(1);
 }
+
+/* When search is open, hide logo and nav-actions instantly */
+.navbar-search-active .logo,
+.navbar-search-active .nav-actions {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
 
 /* Back arrow button */
 .mobile-search-close {

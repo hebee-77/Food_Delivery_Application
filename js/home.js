@@ -57,22 +57,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileSearchInput  = document.getElementById("mobileSearchInput");
     const mobileSearchClear  = document.getElementById("mobileSearchClear");
 
+    const navbarContainer = document.querySelector(".navbar-container");
+
     const openMobileSearch = () => {
         if (!mobileSearchOverlay) return;
         mobileSearchOverlay.classList.add("is-open");
+        // Full takeover: add class to hide logo + nav-actions via CSS
+        if (navbarContainer) navbarContainer.classList.add("navbar-search-active");
         // Focus the input after the CSS transition starts
-        setTimeout(() => { if (mobileSearchInput) mobileSearchInput.focus(); }, 150);
+        setTimeout(() => { if (mobileSearchInput) mobileSearchInput.focus(); }, 180);
     };
 
     const closeMobileSearch = () => {
         if (!mobileSearchOverlay) return;
         mobileSearchOverlay.classList.remove("is-open");
+        if (navbarContainer) navbarContainer.classList.remove("navbar-search-active");
         if (mobileSearchInput) mobileSearchInput.value = "";
         if (mobileSearchClear) mobileSearchClear.classList.remove("visible");
     };
 
     if (mobileSearchBtn)   mobileSearchBtn.addEventListener("click", openMobileSearch);
     if (mobileSearchClose) mobileSearchClose.addEventListener("click", closeMobileSearch);
+
+    // Close when the input loses focus AND the click target is outside the overlay
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener("blur", () => {
+            // Small delay so clicks on the clear/close buttons still register
+            setTimeout(() => {
+                const focused = document.activeElement;
+                const isInsideOverlay = mobileSearchOverlay && mobileSearchOverlay.contains(focused);
+                if (!isInsideOverlay) {
+                    closeMobileSearch();
+                }
+            }, 150);
+        });
+    }
 
     // Show / hide the clear X as the user types
     if (mobileSearchInput) {
