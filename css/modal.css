@@ -1,0 +1,1052 @@
+/* ==========================================================================
+   PLATTER MODAL POPUP SYSTEM
+   Login & Signup as overlay modals on the landing page
+   ========================================================================== */
+
+/* ---- CSS Variables (reuse Platter palette) ---- */
+:root {
+    --modal-primary: #F4B400;
+    --modal-primary-hover: #E5A800;
+    --modal-surface: #FFFFFF;
+    --modal-surface-hover: #FAF9F6;
+    --modal-text: #111111;
+    --modal-text-muted: #6B7280;
+    --modal-border: #ECEAE4;
+    --modal-border-hover: #D8D6CF;
+    --modal-error: #DC2626;
+    --modal-error-bg: #FEF2F2;
+    --modal-error-border: #FCA5A5;
+    --modal-success: #15803D;
+    --modal-success-bg: #F0FDF4;
+    --modal-success-border: #86EFAC;
+    --modal-radius: 28px;
+    --modal-input-radius: 10px;
+    --modal-transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --modal-surface: #1A1815;
+        --modal-surface-hover: #24211D;
+        --modal-text: #F5F3EF;
+        --modal-text-muted: #9D978F;
+        --modal-border: #2C2925;
+        --modal-border-hover: #3E3A34;
+        --modal-error-bg: #221212;
+        --modal-error-border: #4A1A1A;
+        --modal-success-bg: #122218;
+        --modal-success-border: #1A4A2A;
+    }
+}
+
+/* ============================
+   BACKDROP / OVERLAY
+   ============================ */
+
+.auth-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    /* Backdrop blur + dark tint */
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px) saturate(1.4);
+    -webkit-backdrop-filter: blur(10px) saturate(1.4);
+
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-modal-overlay.modal-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ============================
+   MODAL CARD
+   ============================ */
+
+.auth-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    max-height: 92vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--modal-surface);
+    border-radius: var(--modal-radius);
+    border: 1px solid var(--modal-border);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    padding: 40px 36px 36px;
+
+    /* Enter animation */
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--modal-border) transparent;
+}
+
+.auth-modal-card::-webkit-scrollbar {
+    width: 4px;
+}
+
+.auth-modal-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.auth-modal-card::-webkit-scrollbar-thumb {
+    background: var(--modal-border);
+    border-radius: 99px;
+}
+
+.auth-modal-overlay.modal-active .auth-modal-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Signup card is a bit taller */
+#signup-modal .auth-modal-card {
+    max-width: 480px;
+}
+
+/* ============================
+   CLOSE BUTTON
+   ============================ */
+
+.modal-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--modal-border);
+    background: var(--modal-surface);
+    color: var(--modal-text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--modal-transition);
+    z-index: 10;
+    outline: none;
+}
+
+.modal-close-btn:hover {
+    background: var(--modal-border);
+    color: var(--modal-text);
+    border-color: var(--modal-border-hover);
+    transform: rotate(90deg);
+}
+
+/* ============================
+   LOGO INSIDE MODAL
+   ============================ */
+
+.modal-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+
+.modal-logo-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--modal-text);
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+}
+
+.modal-logo-tagline {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--modal-text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* ============================
+   MODAL HEADER
+   ============================ */
+
+.modal-auth-header {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.modal-auth-header h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--modal-text);
+    margin-bottom: 6px;
+}
+
+.modal-subtitle {
+    color: var(--modal-text-muted);
+    font-size: 0.87rem;
+}
+
+/* ============================
+   FORM FIELDS
+   ============================ */
+
+.modal-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--modal-text);
+}
+
+.modal-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.modal-input-icon {
+    position: absolute;
+    left: 15px;
+    color: #9CA3AF;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: var(--modal-transition);
+}
+
+.modal-input-wrapper input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px 0 44px;
+    border-radius: var(--modal-input-radius);
+    border: 1.5px solid var(--modal-border);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--modal-text);
+    background-color: transparent;
+    outline: none;
+    transition: var(--modal-transition);
+}
+
+.modal-input-wrapper input:focus {
+    border-color: var(--modal-primary);
+    box-shadow: 0 0 0 4px rgba(244, 180, 0, 0.12);
+}
+
+.modal-input-wrapper input::placeholder {
+    color: #9CA3AF;
+}
+
+.modal-input-wrapper input:focus+.modal-input-icon {
+    color: var(--modal-primary);
+}
+
+/* Password Toggle */
+.modal-password-toggle {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--modal-transition);
+}
+
+.modal-password-toggle:hover {
+    color: var(--modal-text);
+}
+
+/* ============================
+   PHONE PREFIX
+   ============================ */
+
+.modal-phone-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--modal-border);
+    border-radius: var(--modal-input-radius);
+    height: 48px;
+    padding: 0;
+    overflow: hidden;
+    transition: var(--modal-transition);
+}
+
+.modal-phone-wrapper:focus-within {
+    border-color: var(--modal-primary);
+    box-shadow: 0 0 0 4px rgba(244, 180, 0, 0.12);
+}
+
+.modal-country-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 10px 0 14px;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.modal-country-dropdown .flag {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.modal-country-dropdown .dial-code {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--modal-text);
+}
+
+.modal-country-dropdown .country-chevron {
+    font-size: 0.68rem;
+    color: var(--modal-text-muted);
+}
+
+.modal-phone-bar-divider {
+    width: 1.5px;
+    height: 18px;
+    background: var(--modal-border);
+    flex-shrink: 0;
+}
+
+.modal-phone-wrapper input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--modal-text);
+    background: transparent;
+    box-shadow: none !important;
+}
+
+/* ============================
+   ACTIONS ROW (Remember + Forgot)
+   ============================ */
+
+.modal-auth-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 24px;
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
+    color: var(--modal-text-muted);
+    transition: var(--modal-transition);
+}
+
+.modal-checkbox-container:hover {
+    color: var(--modal-text);
+}
+
+.modal-checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.modal-checkmark {
+    position: absolute;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background: transparent;
+    border: 1.5px solid var(--modal-border);
+    border-radius: 4px;
+    transition: var(--modal-transition);
+}
+
+.modal-checkbox-container:hover input~.modal-checkmark {
+    border-color: var(--modal-border-hover);
+}
+
+.modal-checkbox-container input:checked~.modal-checkmark {
+    background: var(--modal-primary);
+    border-color: var(--modal-primary);
+}
+
+.modal-checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 1px;
+    width: 3.5px;
+    height: 7.5px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.modal-checkbox-container input:checked~.modal-checkmark::after {
+    display: block;
+}
+
+.modal-forgot-link {
+    color: #E26A00;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--modal-transition);
+}
+
+.modal-forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   PASSWORD STRENGTH METER
+   ============================ */
+
+.modal-strength-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.76rem;
+    color: var(--modal-text-muted);
+    margin-top: -4px;
+}
+
+.modal-strength-label strong {
+    font-weight: 700;
+}
+
+.modal-strength-segments {
+    display: flex;
+    gap: 4px;
+}
+
+.modal-strength-segments .seg {
+    width: 22px;
+    height: 4px;
+    background: #E5E7EB;
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-strength-segments .seg.weak {
+    background: #EF4444;
+}
+
+.modal-strength-segments .seg.medium {
+    background: #F59E0B;
+}
+
+.modal-strength-segments .seg.strong {
+    background: #10B981;
+}
+
+/* ============================
+   AGREEMENT CHECKBOX (Signup)
+   ============================ */
+
+.modal-agreement-row {
+    margin: 2px 0;
+}
+
+.modal-terms-link {
+    color: #E26A00;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--modal-transition);
+}
+
+.modal-terms-link:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   SUBMIT BUTTON
+   ============================ */
+
+.modal-submit-btn {
+    width: 100%;
+    height: 50px;
+    background: var(--modal-primary);
+    color: #111;
+    border: none;
+    border-radius: var(--modal-input-radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.96rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(244, 180, 0, 0.2);
+    transition: var(--modal-transition);
+    outline: none;
+}
+
+.modal-submit-btn:hover {
+    background: var(--modal-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(244, 180, 0, 0.28);
+}
+
+.modal-submit-btn:active {
+    transform: translateY(0.5px);
+}
+
+.modal-btn-arrow {
+    position: absolute;
+    right: 20px;
+    font-size: 1rem;
+    transition: var(--modal-transition);
+}
+
+.modal-submit-btn:hover .modal-btn-arrow {
+    transform: translateX(3px);
+}
+
+/* ============================
+   DIVIDER
+   ============================ */
+
+.modal-divider {
+    text-align: center;
+    position: relative;
+    margin: 6px 0;
+}
+
+.modal-divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--modal-border);
+    z-index: 1;
+}
+
+.modal-divider span {
+    position: relative;
+    z-index: 2;
+    background: var(--modal-surface);
+    padding: 0 12px;
+    color: var(--modal-text-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* ============================
+   GOOGLE BUTTON
+   ============================ */
+
+.modal-google-btn {
+    width: 100%;
+    height: 48px;
+    background: var(--modal-surface);
+    border: 1.5px solid var(--modal-border);
+    border-radius: var(--modal-input-radius);
+    color: var(--modal-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: var(--modal-transition);
+    outline: none;
+}
+
+.modal-google-btn img {
+    width: 18px;
+    height: 18px;
+}
+
+.modal-google-btn:hover {
+    background: var(--modal-surface-hover);
+    border-color: var(--modal-border-hover);
+}
+
+/* ============================
+   ALERT BOX
+   ============================ */
+
+.modal-alert-box {
+    padding: 11px 14px;
+    border-radius: var(--modal-input-radius);
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.4;
+    animation: modalSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-alert-box.error {
+    background: var(--modal-error-bg);
+    color: var(--modal-error);
+    border: 1px solid var(--modal-error-border);
+}
+
+.modal-alert-box.success {
+    background: var(--modal-success-bg);
+    color: var(--modal-success);
+    border: 1px solid var(--modal-success-border);
+}
+
+.modal-hidden {
+    display: none !important;
+}
+
+/* ============================
+   FOOTER SWITCH LINK
+   ============================ */
+
+.modal-auth-footer {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 0.9rem;
+    color: var(--modal-text-muted);
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-switch-link {
+    color: #E26A00;
+    text-decoration: none;
+    font-weight: 700;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: inherit;
+    transition: var(--modal-transition);
+}
+
+.modal-switch-link:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+
+@keyframes modalSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+
+@media (max-width: 520px) {
+    .auth-modal-card {
+        padding: 30px 22px 28px;
+        border-radius: 22px;
+    }
+
+    .modal-auth-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-logo-text {
+        font-size: 1.35rem;
+    }
+}
+
+/* ============================
+   SIMPLE SIGNUP CARD — Platter Theme
+   ============================ */
+
+/* Card override */
+.signup-simple-card {
+    max-width: 500px;
+    padding: 44px 48px 40px;
+    border-radius: 24px;
+    background: #FDFCF9;
+    border: 1px solid #EAE6DF;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(184, 115, 51, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+    .signup-simple-card {
+        background: #1A1815;
+        border-color: #2C2925;
+    }
+}
+
+/* Close button */
+.signup-close-btn {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1.5px solid #EAE6DF;
+    border-radius: 50%;
+    font-size: 1rem;
+    color: #7A756E;
+    top: 20px;
+    right: 20px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.signup-close-btn:hover {
+    background: rgba(244, 180, 0, 0.1);
+    border-color: #F4B400;
+    color: #B87333;
+    transform: rotate(90deg);
+}
+
+/* Title — big, left-aligned, Platter style */
+.signup-simple-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    color: #1A1A1A;
+    margin: 0 0 28px 0;
+    background: linear-gradient(135deg, #F4B400, #B87333);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+    .signup-simple-title {
+        background: linear-gradient(135deg, #F4B400, #D4884A);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+/* Form layout */
+.signup-simple-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Inputs — warm, rounded, no icon */
+.signup-simple-input {
+    width: 100%;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: 18px;
+    border: 1.5px solid #EAE6DF;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #1A1A1A;
+    background: #FFFFFF;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.signup-simple-input:focus {
+    border-color: #F4B400;
+    box-shadow: 0 0 0 4px rgba(244, 180, 0, 0.12);
+}
+
+.signup-simple-input::placeholder {
+    color: #7A756E;
+    font-size: 0.95rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .signup-simple-input {
+        background: #24211D;
+        border-color: #2C2925;
+        color: #F5F3EF;
+    }
+
+    .signup-simple-input:focus {
+        border-color: #F4B400;
+    }
+}
+
+/* Terms checkbox row */
+.signup-terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    margin: 6px 0;
+}
+
+.signup-terms-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.signup-terms-box {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid #EAE6DF;
+    border-radius: 6px;
+    margin-top: 1px;
+    background: #FFFFFF;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.signup-terms-label:hover .signup-terms-box {
+    border-color: #F4B400;
+}
+
+.signup-terms-label input:checked~.signup-terms-box {
+    background: linear-gradient(135deg, #F4B400, #D69E00);
+    border-color: #F4B400;
+    box-shadow: 0 2px 8px rgba(244, 180, 0, 0.3);
+}
+
+.signup-terms-label input:checked~.signup-terms-box::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.signup-terms-text {
+    font-size: 0.875rem;
+    color: #7A756E;
+    line-height: 1.55;
+}
+
+.signup-terms-link {
+    color: #B87333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.signup-terms-link:hover {
+    color: #F4B400;
+    text-decoration: underline;
+}
+
+/* Create account button — Platter gold gradient */
+.signup-create-btn {
+    width: 100%;
+    height: 56px;
+    background: linear-gradient(135deg, #D1D5DB, #C4C8CC);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    margin-top: 4px;
+    letter-spacing: 0.01em;
+}
+
+.signup-create-btn:not(:disabled) {
+    background: linear-gradient(135deg, #F4B400, #F0A000);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(244, 180, 0, 0.32);
+}
+
+.signup-create-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(244, 180, 0, 0.42);
+}
+
+.signup-create-btn:not(:disabled):active {
+    transform: translateY(0.5px);
+}
+
+/* Divider */
+.signup-divider {
+    text-align: center;
+    position: relative;
+    margin: 4px 0;
+}
+
+.signup-divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #EAE6DF;
+    z-index: 1;
+}
+
+.signup-divider span {
+    position: relative;
+    z-index: 2;
+    background: #FDFCF9;
+    padding: 0 14px;
+    color: #7A756E;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+    .signup-divider span {
+        background: #1A1815;
+    }
+}
+
+/* Google button */
+.signup-google-btn {
+    width: 100%;
+    height: 54px;
+    background: #FFFFFF;
+    border: 1.5px solid #EAE6DF;
+    border-radius: 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1A1A1A;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.signup-google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.signup-google-btn:hover {
+    border-color: #D69E00;
+    background: rgba(244, 180, 0, 0.04);
+    box-shadow: 0 8px 20px rgba(184, 115, 51, 0.1);
+    transform: translateY(-1px);
+}
+
+@media (prefers-color-scheme: dark) {
+    .signup-google-btn {
+        background: #24211D;
+        border-color: #2C2925;
+        color: #F5F3EF;
+    }
+}
+
+/* Footer — already have an account */
+.signup-simple-footer {
+    margin-top: 6px;
+}
+
+.signup-footer-line {
+    border: none;
+    border-top: 1px solid #EAE6DF;
+    margin-bottom: 20px;
+}
+
+.signup-simple-footer p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    color: #7A756E;
+    margin: 0;
+    text-align: center;
+}
+
+.signup-login-link {
+    background: none;
+    border: none;
+    color: #B87333;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.signup-login-link:hover {
+    color: #F4B400;
+    text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+    .signup-simple-card {
+        padding: 30px 24px 28px;
+        border-radius: 20px;
+    }
+
+    .signup-simple-title {
+        font-size: 1.65rem;
+    }
+
+    .signup-simple-input,
+    .signup-create-btn,
+    .signup-google-btn {
+        border-radius: 14px;
+        height: 52px;
+    }
+}

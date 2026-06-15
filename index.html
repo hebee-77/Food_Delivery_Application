@@ -7,6 +7,7 @@
     <title>Platter | Premium Food Delivery</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modal.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,11 +42,11 @@
 
         <div class="nav-actions">
 
-            <a href="pages/login.html" class="login-btn">
+            <a href="#" class="login-btn" data-modal="login" id="nav-login-btn">
                 Login
             </a>
 
-            <a href="pages/signup.html" class="signup-btn">
+            <a href="#" class="signup-btn" data-modal="signup" id="nav-signup-btn">
                 Sign Up
             </a>
 
@@ -96,8 +97,9 @@
             </ul>
             <div class="mobile-menu-divider"></div>
             <div class="mobile-menu-actions">
-                <a href="pages/login.html" class="mobile-login-btn">Login</a>
-                <a href="pages/signup.html" class="mobile-signup-btn">Sign Up <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#" class="mobile-login-btn" data-modal="login">Login</a>
+                <a href="#" class="mobile-signup-btn" data-modal="signup">Sign Up <i
+                        class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
 
@@ -867,7 +869,177 @@
         </div>
     </footer>
 
+
+
+    <!-- =====================================================
+         LOGIN MODAL OVERLAY
+         ===================================================== -->
+    <div class="auth-modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-label="Login">
+        <div class="auth-modal-card">
+
+            <!-- Close Button -->
+            <button class="modal-close-btn" aria-label="Close login modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Logo -->
+            <div class="modal-logo-container">
+                <div class="modal-logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 4C11.45 4 11 4.45 11 5C11 5.3 11.13 5.57 11.34 5.76C7.22 6.27 4 9.76 4 14H20C20 9.76 16.78 6.27 12.66 5.76C12.87 5.57 13 5.3 13 5C13 4.45 12.55 4 12 4Z"
+                            fill="#F4B400" />
+                        <path
+                            d="M3 16C3 15.45 3.45 15 4 15H20C20.55 15 21 15.45 21 16C21 16.55 20.55 17 20 17H4C3.45 17 3 16.55 3 16Z"
+                            fill="#F4B400" />
+                    </svg>
+                </div>
+                <span class="modal-logo-text">Platter</span>
+                <span class="modal-logo-tagline">Good Food, Great Mood</span>
+            </div>
+
+            <!-- Header -->
+            <header class="modal-auth-header">
+                <h2>Welcome Back 👋</h2>
+                <p class="modal-subtitle">Login to continue to Platter</p>
+            </header>
+
+            <!-- Form -->
+            <form id="modal-login-form" class="modal-auth-form" novalidate>
+
+                <!-- Alert -->
+                <div id="modal-login-alert" class="modal-alert-box modal-hidden"></div>
+
+                <!-- Email -->
+                <div class="modal-input-group">
+                    <label for="modal-login-email">Email Address</label>
+                    <div class="modal-input-wrapper">
+                        <input type="email" id="modal-login-email" name="email" placeholder="Enter your email" required>
+                        <i class="fa-regular fa-envelope modal-input-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="modal-input-group">
+                    <label for="modal-login-password">Password</label>
+                    <div class="modal-input-wrapper">
+                        <input type="password" id="modal-login-password" name="password"
+                            placeholder="Enter your password" required>
+                        <i class="fa-solid fa-lock modal-input-icon"></i>
+                        <button type="button" id="modal-login-toggle-pwd" class="modal-password-toggle"
+                            aria-label="Toggle password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="modal-auth-actions">
+                    <label class="modal-checkbox-container">
+                        <input type="checkbox" id="modal-remember-me" name="remember">
+                        <span class="modal-checkmark"></span>
+                        Remember Me
+                    </label>
+                    <a href="#" class="modal-forgot-link">Forgot Password?</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="modal-submit-btn">
+                    <span>Login</span>
+                    <i class="fa-solid fa-arrow-right modal-btn-arrow"></i>
+                </button>
+
+                <!-- Divider -->
+                <div class="modal-divider"><span>or continue with</span></div>
+
+                <!-- Google -->
+                <button type="button" class="modal-google-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                        alt="Google logo">
+                    <span>Continue with Google</span>
+                </button>
+
+            </form>
+
+            <!-- Switch to Signup -->
+            <footer class="modal-auth-footer">
+                <p>Don't have an account?
+                    <button class="modal-switch-link" id="switch-to-signup">Sign Up</button>
+                </p>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- =====================================================
+         SIGNUP MODAL OVERLAY (Simple style)
+         ===================================================== -->
+    <div class="auth-modal-overlay" id="signup-modal" role="dialog" aria-modal="true" aria-label="Sign Up">
+        <div class="auth-modal-card signup-simple-card">
+
+            <!-- Close Button -->
+            <button class="modal-close-btn signup-close-btn" aria-label="Close signup modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Title -->
+            <h2 class="signup-simple-title">Sign up</h2>
+
+            <!-- Form -->
+            <form id="modal-signup-form" class="signup-simple-form" novalidate>
+
+                <!-- Alert -->
+                <div id="modal-signup-alert" class="modal-alert-box modal-hidden"></div>
+
+                <!-- Full Name -->
+                <input type="text" id="modal-signup-name" name="name" class="signup-simple-input"
+                    placeholder="Full Name" required>
+
+                <!-- Email -->
+                <input type="email" id="modal-signup-email" name="email" class="signup-simple-input" placeholder="Email"
+                    required>
+
+                <!-- Agreement -->
+                <label class="signup-terms-label">
+                    <input type="checkbox" id="modal-agree-terms" name="agree" required>
+                    <span class="signup-terms-box"></span>
+                    <span class="signup-terms-text">
+                        I agree to Platter's
+                        <a href="#" class="signup-terms-link">Terms of Service</a>,
+                        <a href="#" class="signup-terms-link">Privacy Policy</a> and
+                        <a href="#" class="signup-terms-link">Content Policies</a>
+                    </span>
+                </label>
+
+                <!-- Create Account Button -->
+                <button type="submit" class="signup-create-btn" id="signup-create-btn" disabled>
+                    Create account
+                </button>
+
+                <!-- Divider -->
+                <div class="signup-divider"><span>or</span></div>
+
+                <!-- Google -->
+                <button type="button" class="signup-google-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                    Sign in with Google
+                </button>
+
+            </form>
+
+            <!-- Switch to Login -->
+            <div class="signup-simple-footer">
+                <hr class="signup-footer-line">
+                <p>Already have an account?
+                    <button class="signup-login-link" id="switch-to-login">Log in</button>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
+    <script src="js/modal.js"></script>
 
 </body>
 
