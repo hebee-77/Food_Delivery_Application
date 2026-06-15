@@ -42,6 +42,32 @@ html {
     --radius-card: 24px;
     --radius-pill: 30px;
     --radius-btn: 16px;
+
+    /* Theme-adapting variables */
+    --navbar-border: rgba(255, 255, 255, 0.5);
+    --navbar-scrolled-border: rgba(0, 0, 0, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0E0D0B;
+        --surface: #1A1815;
+        --surface-rgb: 26, 24, 21;
+        --text: #F5F3EF;
+        --muted: #9D978F;
+        --border: #2C2925;
+
+        /* Gradient & Shadow adaptation */
+        --glass-gradient: linear-gradient(135deg, rgba(26, 24, 21, 0.75), rgba(26, 24, 21, 0.45));
+        --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+        --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.45);
+        --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.35);
+
+        --navbar-border: rgba(255, 255, 255, 0.08);
+        --navbar-scrolled-border: rgba(255, 255, 255, 0.08);
+        --glass-border: rgba(255, 255, 255, 0.08);
+    }
 }
 
 body {
@@ -117,10 +143,10 @@ body {
 }
 
 .navbar-container {
-    background: rgba(255, 255, 255, 0.65);
+    background: rgba(var(--surface-rgb), 0.65);
     backdrop-filter: blur(25px) saturate(160%);
     -webkit-backdrop-filter: blur(25px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--navbar-border);
     border-radius: var(--radius-round);
     padding: 12px 32px;
     display: flex;
@@ -128,6 +154,8 @@ body {
     align-items: center;
     box-shadow: var(--shadow-premium);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative; /* needed for mobile-search-overlay absolute positioning */
+    overflow: hidden;
 }
 
 /* Sticky Shrink & Style Change on Scroll */
@@ -142,8 +170,8 @@ body {
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--navbar-scrolled-border);
+    background: rgba(var(--surface-rgb), 0.85);
     padding: 10px 48px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
@@ -229,7 +257,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 6px 16px 6px 12px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(var(--surface-rgb), 0.8);
     border: 1px solid var(--border);
     border-radius: var(--radius-pill);
     cursor: pointer;
@@ -240,7 +268,7 @@ body {
 
 .location-selector:hover {
     border-color: var(--primary);
-    background: #FFF;
+    background: var(--surface);
     box-shadow: var(--shadow-soft);
 }
 
@@ -394,7 +422,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(var(--surface-rgb), 0.8);
     border: 1px solid var(--border);
     border-radius: 50%;
     color: var(--text);
@@ -405,7 +433,7 @@ body {
 
 .nav-btn-icon:hover {
     border-color: var(--primary);
-    background: #FFF;
+    background: var(--surface);
     color: var(--primary);
     transform: translateY(-2px);
 }
@@ -553,7 +581,7 @@ body {
     height: 44px;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(var(--surface-rgb), 0.8);
     border: 1px solid var(--border);
     border-radius: 50%;
     color: var(--text);
@@ -564,9 +592,161 @@ body {
 
 .hamburger-btn:hover {
     border-color: var(--primary);
-    background: #FFF;
+    background: var(--surface);
     color: var(--primary);
 }
+
+/* ==========================================================================
+   MOBILE SEARCH BUTTON + EXPANDING OVERLAY
+   ========================================================================== */
+
+/* Icon button — hidden on desktop, shown on mobile via media query */
+.mobile-search-btn {
+    display: none;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--surface-rgb), 0.8);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+}
+
+.mobile-search-btn:hover,
+.mobile-search-btn:active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--surface);
+}
+
+/* Expanding overlay — anchored LEFT, expands over the logo (Platter) area */
+.mobile-search-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse; /* close btn on right, input fills left */
+    gap: 10px;
+    background: rgba(var(--surface-rgb), 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: inherit;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.28s ease,
+        padding 0.38s ease;
+    z-index: 10;
+}
+
+/* Active / open state — expands to 70% of container from the left */
+.mobile-search-overlay.is-open {
+    width: 70%;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 0 12px;
+}
+
+/* Back arrow button */
+.mobile-search-close {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.mobile-search-close:hover {
+    color: var(--text);
+    background: rgba(var(--primary-rgb), 0.08);
+}
+
+/* Input wrapper */
+.mobile-search-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(var(--primary-rgb), 0.06);
+    border: 1.5px solid transparent;
+    border-radius: 14px;
+    padding: 8px 12px;
+    transition: border-color 0.25s ease, background 0.25s ease;
+    min-width: 0;
+}
+
+.mobile-search-input-wrap:focus-within {
+    background: var(--surface);
+    border-color: rgba(var(--primary-rgb), 0.45);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+.mobile-search-input-wrap i {
+    color: var(--muted);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.mobile-search-input-wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    min-width: 0;
+}
+
+.mobile-search-input-wrap input::placeholder {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Clear X button */
+.mobile-search-clear {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: none; /* shown via JS when input has value */
+    align-items: center;
+    justify-content: center;
+    background: var(--muted);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.65rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.mobile-search-clear.visible {
+    display: flex;
+}
+
+.mobile-search-clear:hover {
+    background: var(--text);
+}
+
 
 /* --------------------------------------------------------------------------
    4. MOBILE SIDE DRAWER
@@ -1127,10 +1307,10 @@ body {
     align-items: center;
     gap: 12px;
     padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(var(--surface-rgb), 0.72);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--glass-border);
     border-radius: 18px;
     box-shadow: var(--shadow-premium);
     z-index: 5;
@@ -1140,7 +1320,7 @@ body {
 .floating-card:hover {
     transform: scale(1.05) translateY(-5px) !important;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(var(--surface-rgb), 0.9);
 }
 
 .card-icon-container {
@@ -1277,6 +1457,11 @@ body {
         display: flex;
     }
 
+    /* Show mobile search icon */
+    .mobile-search-btn {
+        display: flex;
+    }
+
     .hero-container {
         grid-template-columns: 1fr;
         gap: 60px;
@@ -1362,6 +1547,13 @@ body {
         width: 36px;
         height: 36px;
         font-size: 1rem;
+    }
+
+    /* Mobile search button smaller on tiny screens */
+    .mobile-search-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
     }
 
     .hero-section {
@@ -1487,7 +1679,7 @@ body {
    OFFERS SLIDER STYLE (PHASE 2)
    ========================================================================== */
 .offers-section {
-    padding: 60px 0;
+    padding: 110px 0 30px;
     width: 90%;
     max-width: 1400px;
     margin: 0 auto;
@@ -1496,7 +1688,7 @@ body {
 .offers-slider-container {
     position: relative;
     width: 100%;
-    height: 380px;
+    height: 350px;
     border-radius: 32px;
     overflow: hidden;
     box-shadow: var(--shadow-premium);
@@ -1533,7 +1725,7 @@ body {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     align-items: center;
-    padding: 40px 80px;
+    padding: 30px 80px;
     position: relative;
     overflow: hidden;
 }
@@ -1578,7 +1770,7 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .offer-title-main {
@@ -1586,21 +1778,21 @@ body {
     font-weight: 900;
     line-height: 1;
     letter-spacing: -2px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .offer-subtitle-main {
     font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     opacity: 0.95;
 }
 
 .offer-description-main {
     font-size: 1.05rem;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     max-width: 500px;
     opacity: 0.85;
 }
@@ -1612,7 +1804,7 @@ body {
     border-radius: 12px;
     font-size: 0.95rem;
     font-weight: 600;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .offer-coupon-code strong {
@@ -1723,7 +1915,7 @@ body {
 /* Pagination Dots */
 .offer-pagination-dots {
     position: absolute;
-    bottom: 24px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -1750,7 +1942,7 @@ body {
    FOOD CATEGORIES STYLE (PHASE 2)
    ========================================================================== */
 .categories-section {
-    padding: 60px 0 80px;
+    padding: 30px 0 40px;
     width: 90%;
     max-width: 1400px;
     margin: 0 auto;
@@ -1960,6 +2152,11 @@ body {
 }
 
 @media (max-width: 768px) {
+    .offers-section {
+        padding: 95px 0 30px;
+        width: 94%;
+    }
+
     .offers-slider-container {
         height: auto;
     }
@@ -2037,10 +2234,107 @@ body {
 }
 
 /* ==========================================================================
+   OFFERS SLIDER — SMALL MOBILE (≤480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+    /* On small mobile, reduce the scroll-reveal slide distance
+       so sections near the top don't overshoot and miss the observer */
+    .scroll-reveal {
+        transform: translateY(16px);
+    }
+
+    .offers-section {
+        padding: 80px 0 20px;
+        width: 94%;
+    }
+
+    .offers-slider-container {
+        height: auto;
+        border-radius: 24px;
+    }
+
+    .offer-card-bg {
+        grid-template-columns: 1fr;
+        padding: 28px 22px 24px;
+        text-align: center;
+        gap: 0;
+    }
+
+    .offer-card-content {
+        align-items: center;
+        order: 2;
+    }
+
+    .offer-card-graphic {
+        order: 1;
+        margin-bottom: 12px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .offer-graphic-img {
+        max-width: 130px;
+        max-height: 130px;
+    }
+
+    .offer-badge-pill {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+        margin-bottom: 10px;
+    }
+
+    .offer-title-main {
+        font-size: 2.8rem;
+        letter-spacing: -1px;
+        margin-bottom: 4px;
+    }
+
+    .offer-subtitle-main {
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+    }
+
+    .offer-description-main {
+        font-size: 0.9rem;
+        line-height: 1.55;
+        margin-bottom: 14px;
+    }
+
+    .offer-coupon-code {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+        margin-bottom: 14px;
+    }
+
+    .offer-action-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        border-radius: 12px;
+    }
+
+    .offer-nav-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+
+    .offer-nav-btn.prev-btn { left: 8px; }
+    .offer-nav-btn.next-btn { right: 8px; }
+
+    .offer-progress-dots {
+        bottom: 10px;
+        gap: 6px;
+    }
+}
+
+
+/* ==========================================================================
    POPULAR RESTAURANTS STYLE (PHASE 3)
    ========================================================================== */
 .restaurants-section {
-    padding: 60px 0 80px;
+    padding: 30px 0 40px;
     width: 90%;
     max-width: 1400px;
     margin: 0 auto;
@@ -2378,7 +2672,7 @@ body {
    RECOMMENDED DISHES STYLE (PHASE 4)
    ========================================================================== */
 .dishes-section {
-    padding: 60px 0 80px;
+    padding: 30px 0 40px;
     width: 90%;
     max-width: 1400px;
     margin: 0 auto;
@@ -3049,7 +3343,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(var(--surface-rgb), 0.9);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -3065,7 +3359,7 @@ body {
 }
 
 .trending-nav-btn:hover:not(:disabled) {
-    background: white;
+    background: var(--surface);
     transform: translateY(-50%) scale(1.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
     color: var(--primary-dark);
@@ -3163,10 +3457,10 @@ body {
     bottom: 30px;
     right: 30px;
     width: 320px;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(var(--surface-rgb), 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--navbar-border);
     border-radius: 24px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
     z-index: 2000;
@@ -3214,6 +3508,27 @@ body {
     padding: 4px 10px;
     border-radius: 20px;
     box-shadow: 0 3px 8px rgba(184, 115, 51, 0.25);
+}
+
+.close-floating-cart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.15rem;
+    color: var(--muted);
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 28px;
+    height: 28px;
+}
+
+.close-floating-cart-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text);
 }
 
 .floating-cart-body {
@@ -3343,7 +3658,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(var(--surface-rgb), 0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-top: 1px solid var(--border);
@@ -3636,7 +3951,7 @@ body {
 }
 
 .coupon-chip {
-    background: white;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 6px 12px;
@@ -3723,7 +4038,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    background: white;
+    background: var(--surface);
 }
 
 .checkout-action-btn {
@@ -3824,7 +4139,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: white;
+    background: var(--surface);
     z-index: 10;
     padding: 40px 30px;
     display: flex;
@@ -3925,10 +4240,10 @@ body {
 
 /* --- 1. BECOME A PARTNER SECTION --- */
 .partner-section {
-    padding: 100px 0;
+    padding: 60px 0;
     width: 90%;
     max-width: 1400px;
-    margin: 140px auto 60px;
+    margin: 70px auto 30px;
     background: var(--surface);
     border-radius: 24px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
@@ -4134,8 +4449,8 @@ body {
     display: flex;
     align-items: center;
     gap: 14px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(var(--surface-rgb), 0.85);
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 16px 22px;
@@ -4147,7 +4462,7 @@ body {
 
 .partner-float-card:hover {
     transform: translateY(-5px) scale(1.02);
-    background: white;
+    background: var(--surface);
 }
 
 .float-merchant {
@@ -4192,7 +4507,7 @@ body {
 
 /* --- 2. DOWNLOAD APP SECTION --- */
 .download-section {
-    padding: 100px 0 120px;
+    padding: 60px 0 70px;
     width: 90%;
     max-width: 1400px;
     margin: 0 auto;
@@ -4556,8 +4871,8 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(var(--surface-rgb), 0.85);
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 12px 18px;
@@ -4569,7 +4884,7 @@ body {
 
 .floating-ui-card:hover {
     transform: translateY(-5px) scale(1.02);
-    background: white;
+    background: var(--surface);
 }
 
 .ui-card-rating {
@@ -4646,10 +4961,10 @@ body {
    HIGHLIGHTS SECTION (WHY CUSTOMERS LOVE PLATTER)
    ========================================================================== */
 .highlights-section {
-    padding: 100px 0;
+    padding: 50px 0;
     width: 90%;
     max-width: 1400px;
-    margin: 100px auto 60px;
+    margin: 50px auto 30px;
     position: relative;
 }
 
@@ -4764,8 +5079,8 @@ body {
 .premium-footer {
     background: #121212;
     color: #EAEAE9;
-    padding: 100px 0 40px;
-    margin-top: 180px;
+    padding: 50px 0 20px;
+    margin-top: 90px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
 }
@@ -4773,12 +5088,12 @@ body {
 .premium-footer .footer-top-newsletter {
     width: 90%;
     max-width: 1400px;
-    margin: -160px auto 60px;
+    margin: -110px auto 40px;
     /* pull it up to overlap the page content beautifully */
     background: linear-gradient(135deg, #1E1E1E, #161616);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-card);
-    padding: 50px 60px;
+    padding: 40px 50px;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 10;
@@ -4910,32 +5225,29 @@ body {
 }
 
 /* Main Footer Grid */
-.footer-main-grid {
+.footer-container {
     width: 90%;
     max-width: 1400px;
     margin: 40px auto 60px;
-    display: grid;
-    grid-template-columns: 2fr repeat(4, 1fr);
-    gap: 40px;
     padding: 0 20px;
 }
 
-.footer-brand-column {
+.footer-brand-row {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
 }
 
 .footer-logo {
     font-size: 2.2rem;
-    font-weight: 950;
+    font-weight: 900;
     letter-spacing: -1.5px;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
 }
 
-.footer-logo .logo-accent {
+.footer-logo span {
     color: var(--primary);
     background: var(--brand-gradient);
     -webkit-background-clip: text;
@@ -4943,51 +5255,29 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.footer-tagline {
-    font-size: 0.95rem;
-    color: #A5A29D;
-    line-height: 1.6;
-    max-width: 280px;
+.footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 1.2fr;
+    gap: 40px;
+    margin-bottom: 50px;
 }
 
-.footer-social-links {
+.footer-column {
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    gap: 16px;
 }
 
-.social-icon-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #EAEAE9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
+.column-title {
     font-size: 0.95rem;
-    transition: all 0.3s ease;
-}
-
-.social-icon-btn:hover {
-    background: var(--brand-gradient);
-    color: white;
-    border-color: transparent;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 5px 15px rgba(244, 180, 0, 0.25);
-}
-
-.footer-column-title {
-    font-size: 1rem;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 24px;
+    font-weight: 700;
+    color: #ffffff;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
 }
 
-.footer-links-list {
+.column-links {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -4996,36 +5286,112 @@ body {
     gap: 12px;
 }
 
-.footer-link {
-    color: #A5A29D;
+.column-links a {
+    color: #a1a1aa;
     text-decoration: none;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 400;
+    transition: color 0.2s ease;
+}
+
+.column-links a:hover {
+    color: #ffffff;
+}
+
+/* Social Column Styling */
+.social-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background: #ffffff;
+    color: #09090b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+/* Footer store buttons mimicking Zomato's app store badges */
+.footer-store-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.footer-store-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #09090b;
+    border: 1px solid #27272a;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    width: 175px;
     transition: all 0.2s ease;
 }
 
-.footer-link:hover {
-    color: var(--primary);
-    padding-left: 4px;
+.footer-store-btn:hover {
+    border-color: #52525b;
+    background: #18181b;
 }
 
-/* Footer Bottom Bar */
-.footer-bottom-bar {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 30px;
-    width: 90%;
-    max-width: 1400px;
-    margin: 0 auto;
+.footer-store-btn i {
+    font-size: 1.4rem;
+    color: #ffffff;
 }
 
-.footer-bottom-content {
+.footer-store-btn .btn-text {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #72706C;
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 0 20px;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.footer-store-btn .btn-text .sub {
+    font-size: 0.65rem;
+    color: #a1a1aa;
+    text-transform: uppercase;
+}
+
+.footer-store-btn .btn-text .main {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.footer-divider {
+    border: none;
+    border-top: 1px solid #27272a;
+    margin-bottom: 25px;
+}
+
+.footer-bottom-text {
+    font-size: 0.8rem;
+    color: #71717a;
+    line-height: 1.5;
+    text-align: left;
 }
 
 .heart-icon {
@@ -5047,8 +5413,8 @@ body {
 
 /* Responsive styles for footer */
 @media (max-width: 1200px) {
-    .footer-main-grid {
-        grid-template-columns: 2fr repeat(2, 1fr);
+    .footer-links-grid {
+        grid-template-columns: repeat(3, 1fr);
         gap: 30px;
     }
 }
@@ -5070,7 +5436,7 @@ body {
         max-width: 100%;
     }
 
-    .footer-main-grid {
+    .footer-links-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 40px 30px;
     }
@@ -5090,14 +5456,33 @@ body {
         font-size: 1.8rem;
     }
 
-    .footer-main-grid {
+    .footer-links-grid {
         grid-template-columns: 1fr;
         gap: 30px;
+    }
+
+    .footer-brand-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
 
     .footer-bottom-content {
         flex-direction: column;
         gap: 12px;
         text-align: center;
+    }
+}
+
+/* Responsive visibility for cart widgets */
+@media (min-width: 769px) {
+    .mobile-sticky-cart-bar {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-cart-card {
+        display: none !important;
     }
 }

@@ -49,6 +49,56 @@ document.addEventListener("DOMContentLoaded", () => {
     if (drawerOverlay) drawerOverlay.addEventListener("click", closeDrawer);
 
     // ----------------------------------------------------------------------
+    // 2b. MOBILE SEARCH EXPAND / COLLAPSE
+    // ----------------------------------------------------------------------
+    const mobileSearchBtn    = document.getElementById("mobileSearchBtn");
+    const mobileSearchOverlay = document.getElementById("mobileSearchOverlay");
+    const mobileSearchClose  = document.getElementById("mobileSearchClose");
+    const mobileSearchInput  = document.getElementById("mobileSearchInput");
+    const mobileSearchClear  = document.getElementById("mobileSearchClear");
+
+    const openMobileSearch = () => {
+        if (!mobileSearchOverlay) return;
+        mobileSearchOverlay.classList.add("is-open");
+        // Focus the input after the CSS transition starts
+        setTimeout(() => { if (mobileSearchInput) mobileSearchInput.focus(); }, 150);
+    };
+
+    const closeMobileSearch = () => {
+        if (!mobileSearchOverlay) return;
+        mobileSearchOverlay.classList.remove("is-open");
+        if (mobileSearchInput) mobileSearchInput.value = "";
+        if (mobileSearchClear) mobileSearchClear.classList.remove("visible");
+    };
+
+    if (mobileSearchBtn)   mobileSearchBtn.addEventListener("click", openMobileSearch);
+    if (mobileSearchClose) mobileSearchClose.addEventListener("click", closeMobileSearch);
+
+    // Show / hide the clear X as the user types
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener("input", () => {
+            if (mobileSearchClear) {
+                mobileSearchClear.classList.toggle("visible", mobileSearchInput.value.length > 0);
+            }
+        });
+    }
+
+    // Clear button resets input and refocuses
+    if (mobileSearchClear) {
+        mobileSearchClear.addEventListener("click", () => {
+            if (mobileSearchInput) { mobileSearchInput.value = ""; mobileSearchInput.focus(); }
+            mobileSearchClear.classList.remove("visible");
+        });
+    }
+
+    // Close on Escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileSearchOverlay && mobileSearchOverlay.classList.contains("is-open")) {
+            closeMobileSearch();
+        }
+    });
+
+    // ----------------------------------------------------------------------
     // 3. NAVBAR DROPDOWN TOGGLES (LOCATION & PROFILE)
     // ----------------------------------------------------------------------
     const locationTrigger = document.getElementById("locationTrigger");
@@ -444,11 +494,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }, {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+        threshold: 0.05,
+        rootMargin: "0px 0px 0px 0px"
     });
 
     scrollRevealElements.forEach(el => revealObserver.observe(el));
+
 
     // ----------------------------------------------------------------------
     // 12. FAVORITES TOGGLING & VIEW MENU MICRO-INTERACTIONS (PHASE 3)
@@ -571,11 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ----------------------------------------------------------------------
     // GLOBAL CART STATE MANAGEMENT (PHASE 6)
     // ----------------------------------------------------------------------
-    let cart = [
-        { id: "dish-chicken-burger", name: "Chicken Burger", restaurant: "Burger Hub", price: 189, qty: 1, img: "images/hero/burger.png" },
-        { id: "dish-cold-coffee", name: "Cold Coffee", restaurant: "Coffee Corner", price: 129, qty: 1, img: "images/categories/coffee.png" },
-        { id: "dish-veg-biryani", name: "Veg Biryani", restaurant: "Biryani House", price: 319, qty: 1, img: "images/Restaurant/biryani.jpg" }
-    ];
+    let cart = [];
     let appliedCoupon = null;
     let discountAmount = 0;
     let deliveryFee = 40;
@@ -652,7 +699,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            floatingCart.classList.toggle("active", totalItems > 0);
+            const isClosed = localStorage.getItem("floatingCartClosed") === "true";
+            floatingCart.classList.toggle("active", totalItems > 0 && !isClosed);
         }
 
         // 4. Update Mobile Sticky Cart Bar
@@ -781,6 +829,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateCartItemQuantity = (name, change, cardData = null) => {
         const itemIndex = cart.findIndex(item => item.name === name);
 
+        if (change > 0) {
+            localStorage.removeItem("floatingCartClosed");
+        }
+
         if (itemIndex > -1) {
             cart[itemIndex].qty += change;
             if (cart[itemIndex].qty <= 0) {
@@ -872,6 +924,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (drawerCloseBtn) drawerCloseBtn.addEventListener("click", closeCartDrawer);
     if (cartDrawerOverlay) cartDrawerOverlay.addEventListener("click", closeCartDrawer);
+
+    // Bind floating cart close button
+    const closeFloatingCartBtn = document.querySelector(".close-floating-cart-btn");
+    if (closeFloatingCartBtn) {
+        closeFloatingCartBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            localStorage.setItem("floatingCartClosed", "true");
+            const floatingCart = document.querySelector(".floating-cart-card");
+            if (floatingCart) {
+                floatingCart.classList.remove("active");
+            }
+        });
+    }
 
     // ----------------------------------------------------------------------
     // COUPON SECTION LOGIC
@@ -1014,8 +1080,8 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.style.transition = "opacity 0.3s ease";
 
             modal.innerHTML = `
-                <div class="quick-modal-content" style="background: white; border-radius: 24px; padding: 32px; width: 90%; max-width: 500px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid var(--border); transform: translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; font-family: 'Inter', sans-serif;">
-                    <button class="modal-close-btn" style="position: absolute; top: 20px; right: 20px; border: none; background: rgba(0,0,0,0.04); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;"><i class="fa-solid fa-xmark"></i></button>
+                <div class="quick-modal-content" style="background: var(--surface); border-radius: 24px; padding: 32px; width: 90%; max-width: 500px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid var(--border); transform: translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; font-family: 'Inter', sans-serif;">
+                    <button class="modal-close-btn" style="position: absolute; top: 20px; right: 20px; border: none; background: var(--border); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--text);"><i class="fa-solid fa-xmark"></i></button>
                     <span style="color: var(--secondary); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">${rest}</span>
                     <h3 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 12px; color: var(--text);">${name}</h3>
                     <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">${desc}</p>

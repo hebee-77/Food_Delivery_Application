@@ -1,21 +1,49 @@
 // ======================================
-// MOBILE MENU
+// MOBILE MENU (PREMIUM DRAWER)
 // ======================================
 
 const hamburger = document.querySelector(".hamburger");
 const mobileMenu = document.querySelector(".mobile-menu");
 
-if (hamburger) {
-    hamburger.addEventListener("click", () => {
+if (hamburger && mobileMenu) {
+    hamburger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = mobileMenu.classList.toggle("is-open");
+        hamburger.classList.toggle("is-open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
 
-        if (mobileMenu.style.display === "block") {
-            mobileMenu.style.display = "none";
+        // Swap bars <-> xmark icon
+        const icon = hamburger.querySelector("i");
+        if (isOpen) {
+            icon.className = "fa-solid fa-xmark";
         } else {
-            mobileMenu.style.display = "block";
+            icon.className = "fa-solid fa-bars";
         }
+    });
 
+    // Close on outside tap
+    document.addEventListener("click", (e) => {
+        if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.remove("is-open");
+            hamburger.classList.remove("is-open");
+            hamburger.setAttribute("aria-expanded", "false");
+            const icon = hamburger.querySelector("i");
+            if (icon) icon.className = "fa-solid fa-bars";
+        }
+    });
+
+    // Close on nav link click
+    mobileMenu.querySelectorAll(".mobile-nav-link").forEach(link => {
+        link.addEventListener("click", () => {
+            mobileMenu.classList.remove("is-open");
+            hamburger.classList.remove("is-open");
+            hamburger.setAttribute("aria-expanded", "false");
+            const icon = hamburger.querySelector("i");
+            if (icon) icon.className = "fa-solid fa-bars";
+        });
     });
 }
+
 
 // ======================================
 // HERO SLIDER
@@ -146,20 +174,9 @@ window.addEventListener("scroll", () => {
     if (!navbar) return;
 
     if (window.scrollY > 50) {
-
-        navbar.style.boxShadow =
-            "0 15px 40px rgba(0,0,0,0.12)";
-
-        navbar.style.background =
-            "rgba(255,255,255,0.92)";
-
+        navbar.classList.add("scrolled");
     } else {
-
-        navbar.style.boxShadow =
-            "0 10px 30px rgba(0,0,0,0.08)";
-
-        navbar.style.background =
-            "rgba(255,255,255,0.75)";
+        navbar.classList.remove("scrolled");
     }
 
 });
@@ -360,7 +377,7 @@ if (categorySlider) {
 const initStatsCounter = () => {
     const stats = document.querySelectorAll('.partner-stats-grid .stat-num');
     if (!stats.length) return;
-    
+
     const countUp = (element) => {
         const target = +element.getAttribute('data-val');
         const isRating = element.innerText.includes('★') || element.getAttribute('data-val') === '49';
@@ -370,13 +387,13 @@ const initStatsCounter = () => {
         const stepTime = 30;
         const steps = duration / stepTime;
         const increment = target / steps;
-        
+
         let stepCount = 0;
-        
+
         const timer = setInterval(() => {
             current += increment;
             stepCount++;
-            
+
             if (stepCount >= steps) {
                 clearInterval(timer);
                 if (isRating) {
@@ -418,7 +435,7 @@ const initStatsCounter = () => {
 const initScrollReveal = () => {
     const scrollRevealElements = document.querySelectorAll(".scroll-reveal");
     if (!scrollRevealElements.length) return;
-    
+
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {

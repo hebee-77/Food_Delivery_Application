@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Redirect to index page after a brief delay
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "../index.jsp";
             }, 1800);
         });
     }
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         googleBtn.addEventListener("click", () => {
             showAlert("Connecting with Google...", "success");
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "../index.jsp";
             }, 1200);
         });
     }

@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
         googleBtn.addEventListener("click", () => {
             showAlert("Registering with Google account...", "success");
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "../index.jsp";
             }, 1200);
         });
     }

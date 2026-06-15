@@ -22,6 +22,7 @@
     <!-- Background Blobs -->
     <div class="blur blob-1"></div>
     <div class="blur blob-2"></div>
+    <div class="blur blob-3"></div>
 
     <!-- NAVBAR -->
     <header class="navbar">
@@ -48,22 +49,59 @@
                 Sign Up
             </a>
 
-            <div class="hamburger">
+            <div class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
                 <i class="fa-solid fa-bars"></i>
             </div>
 
         </div>
 
-    </header>
+        <!-- PREMIUM MOBILE MENU DRAWER -->
+        <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+            <ul class="mobile-nav-list">
+                <li>
+                    <a href="home.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon"><i class="fa-solid fa-house"></i></span>
+                        <span class="mobile-nav-label">Home</span>
+                        <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav-link">
+                        <span class="mobile-nav-icon"><i class="fa-solid fa-utensils"></i></span>
+                        <span class="mobile-nav-label">Restaurants</span>
+                        <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav-link">
+                        <span class="mobile-nav-icon"><i class="fa-solid fa-grid-2"></i></span>
+                        <span class="mobile-nav-label">Categories</span>
+                        <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav-link">
+                        <span class="mobile-nav-icon"><i class="fa-solid fa-tag"></i></span>
+                        <span class="mobile-nav-label">Offers</span>
+                        <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="mobile-nav-link">
+                        <span class="mobile-nav-icon"><i class="fa-solid fa-handshake"></i></span>
+                        <span class="mobile-nav-label">Partners</span>
+                        <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="mobile-menu-divider"></div>
+            <div class="mobile-menu-actions">
+                <a href="pages/login.html" class="mobile-login-btn">Login</a>
+                <a href="pages/signup.html" class="mobile-signup-btn">Sign Up <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
 
-    <!-- MOBILE MENU -->
-    <div class="mobile-menu">
-        <a href="#">Home</a>
-        <a href="#">Restaurants</a>
-        <a href="#">Categories</a>
-        <a href="#">Offers</a>
-        <a href="#">Partners</a>
-    </div>
+    </header>
 
     <!-- HERO -->
     <section class="hero">
@@ -123,25 +161,6 @@
 
             </div>
 
-            <div class="hero-stats">
-
-                <div>
-                    <h3>10K+</h3>
-                    <span>Orders</span>
-                </div>
-
-                <div>
-                    <h3>500+</h3>
-                    <span>Restaurants</span>
-                </div>
-
-                <div>
-                    <h3>4.9★</h3>
-                    <span>Rating</span>
-                </div>
-
-            </div>
-
         </div>
 
         <!-- RIGHT -->
@@ -159,36 +178,6 @@
 
             </div>
 
-        </div>
-
-    </section>
-
-    <!-- STATS SECTION -->
-
-    <section class="stats-section">
-
-        <div class="stat-card">
-            <i class="fa-solid fa-truck-fast"></i>
-            <h2>10K+</h2>
-            <p>Orders Delivered</p>
-        </div>
-
-        <div class="stat-card">
-            <i class="fa-solid fa-store"></i>
-            <h2>500+</h2>
-            <p>Restaurant Partners</p>
-        </div>
-
-        <div class="stat-card">
-            <i class="fa-solid fa-star"></i>
-            <h2>4.9</h2>
-            <p>Customer Rating</p>
-        </div>
-
-        <div class="stat-card">
-            <i class="fa-solid fa-clock"></i>
-            <h2>25 Min</h2>
-            <p>Average Delivery</p>
         </div>
 
     </section>
@@ -429,89 +418,6 @@
 
     </section>
 
-
-    <!-- =========================
-     HOW IT WORKS
-========================= -->
-
-    <section class="how-it-works">
-
-        <div class="section-title">
-
-            <h2>How It Works</h2>
-
-            <p>
-                Ordering your favorite food has never been easier
-            </p>
-
-        </div>
-
-        <div class="steps-container">
-
-            <!-- Step 1 -->
-
-            <div class="step-card">
-
-                <div class="step-icon">
-                    🍽️
-                </div>
-
-                <h3>Choose Food</h3>
-
-                <p>
-                    Browse restaurants and explore your favorite dishes.
-                </p>
-
-            </div>
-
-            <!-- Step 2 -->
-
-            <div class="step-arrow">
-                →
-            </div>
-
-            <!-- Step 3 -->
-
-            <div class="step-card">
-
-                <div class="step-icon">
-                    📦
-                </div>
-
-                <h3>Place Order</h3>
-
-                <p>
-                    Add items to your cart and complete checkout securely.
-                </p>
-
-            </div>
-
-            <!-- Arrow -->
-
-            <div class="step-arrow">
-                →
-            </div>
-
-            <!-- Step 3 -->
-
-            <div class="step-card">
-
-                <div class="step-icon">
-                    🛵
-                </div>
-
-                <h3>Fast Delivery</h3>
-
-                <p>
-                    Track your order live and enjoy fresh food at your doorstep.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
     <!-- =========================
      TESTIMONIALS
 ========================= -->
@@ -643,7 +549,7 @@
                 <p class="partner-description">
                     Join hundreds of restaurant owners and delivery partners reaching thousands of customers every day.
                 </p>
-                
+
                 <div class="partner-actions">
                     <a href="#" class="partner-btn partner-btn-primary">
                         <span>Join As Restaurant</span>
@@ -694,7 +600,7 @@
                 <div class="partner-image-wrapper">
                     <img src="images/hero/rider.png" alt="Platter Partner Rider" class="rider-img">
                 </div>
-                
+
                 <!-- Floating UI Cards -->
                 <div class="partner-float-card float-merchant">
                     <div class="float-icon-circle">
@@ -730,7 +636,7 @@
                 <p class="download-description">
                     Download the Platter app and enjoy a faster and more personalized food ordering experience.
                 </p>
-                
+
                 <!-- Features List -->
                 <div class="download-features-grid">
                     <div class="feature-item">
@@ -773,7 +679,7 @@
             <!-- Right Column: Phone Mockup & Floating Badges -->
             <div class="download-mockup-area">
                 <div class="mockup-glow"></div>
-                
+
                 <!-- Premium CSS-based iPhone Mockup -->
                 <div class="iphone-mockup">
                     <div class="iphone-notch"></div>
@@ -782,12 +688,12 @@
                             <div class="app-logo"><span>P</span>latter</div>
                             <i class="fa-solid fa-bell app-notification-icon"></i>
                         </div>
-                        
+
                         <div class="iphone-app-search">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             <div class="search-placeholder">Search premium dishes...</div>
                         </div>
-                        
+
                         <div class="iphone-app-banner">
                             <div class="banner-text">
                                 <strong>Get 50% OFF</strong>
@@ -795,7 +701,7 @@
                             </div>
                             <img src="images/hero/burger.png" alt="App Burger" class="app-banner-img">
                         </div>
-                        
+
                         <div class="iphone-app-categories">
                             <span class="section-title">Popular Categories</span>
                             <div class="app-categories-row">
@@ -841,7 +747,7 @@
                         <span>Loved by 10k+ foodies</span>
                     </div>
                 </div>
-                
+
                 <!-- Delivery Card -->
                 <div class="floating-ui-card ui-card-delivery">
                     <div class="ui-icon-wrapper delivery-color">
@@ -852,7 +758,7 @@
                         <span>Real-time delivery status</span>
                     </div>
                 </div>
-                
+
                 <!-- Discount Card -->
                 <div class="floating-ui-card ui-card-discount">
                     <div class="ui-icon-wrapper discount-color">
@@ -867,77 +773,98 @@
         </div>
     </section>
 
-    <!-- =========================
-     FOOTER
-========================= -->
-
     <footer class="footer">
-
-        <div class="footer-grid">
-
-            <!-- Brand -->
-
-            <div class="footer-column">
-
-                <h3>
-                    <span>P</span>latter
-                </h3>
-
-                <p>
-                    Delivering delicious meals from the best
-                    restaurants directly to your doorstep.
-                </p>
-
+        <div class="footer-container">
+            <!-- Brand & Socials Row -->
+            <div class="footer-brand-row">
+                <a href="index.html" class="footer-logo"><span>P</span>latter</a>
             </div>
 
-            <!-- Company -->
+            <!-- Links Grid -->
+            <div class="footer-links-grid">
+                <!-- Eternal Column -->
+                <div class="footer-column">
+                    <h4 class="column-title">Eternal</h4>
+                    <ul class="column-links">
+                        <li><a href="index.html">Platter</a></li>
+                        <li><a href="home.html">Platter Express</a></li>
+                        <li><a href="#">District</a></li>
+                        <li><a href="#">Hyperpure</a></li>
+                        <li><a href="#">Feeding India</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer-column">
+                <!-- For Restaurants Column -->
+                <div class="footer-column">
+                    <h4 class="column-title">For Restaurants</h4>
+                    <ul class="column-links">
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#">Apps For You</a></li>
+                        <li><a href="#">Restaurant Consulting</a></li>
+                    </ul>
+                </div>
 
-                <h4>Company</h4>
+                <!-- For Delivery Partners Column -->
+                <div class="footer-column">
+                    <h4 class="column-title">For Delivery Partners</h4>
+                    <ul class="column-links">
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#">Apps For You</a></li>
+                    </ul>
+                </div>
 
-                <a href="#">About Us</a>
-                <a href="#">Careers</a>
-                <a href="#">Contact</a>
-                <a href="#">Blog</a>
+                <!-- Learn More Column -->
+                <div class="footer-column">
+                    <h4 class="column-title">Learn More</h4>
+                    <ul class="column-links">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Help & Support</a></li>
+                        <li><a href="#">Report a Fraud</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
 
+                <!-- Social Links Column -->
+                <div class="footer-column social-column">
+                    <h4 class="column-title">Social Links</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                    <div class="footer-store-buttons">
+                        <a href="#" class="footer-store-btn">
+                            <i class="fa-brands fa-apple"></i>
+                            <div class="btn-text">
+                                <span class="sub">Download on the</span>
+                                <span class="main">App Store</span>
+                            </div>
+                        </a>
+                        <a href="#" class="footer-store-btn">
+                            <i class="fa-brands fa-google-play"></i>
+                            <div class="btn-text">
+                                <span class="sub">GET IT ON</span>
+                                <span class="main">Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Services -->
+            <hr class="footer-divider">
 
-            <div class="footer-column">
-
-                <h4>Services</h4>
-
-                <a href="#">Restaurants</a>
-                <a href="#">Food Delivery</a>
-                <a href="#">Offers</a>
-                <a href="#">Partner Program</a>
-
-            </div>
-
-            <!-- Legal -->
-
-            <div class="footer-column">
-
-                <h4>Legal</h4>
-
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Cookie Policy</a>
-
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-
-            <p>
-                © 2026 Platter. All Rights Reserved.
+            <!-- Bottom Row -->
+            <p class="footer-bottom-text">
+                By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and
+                Content Policies. All trademarks are properties of their respective owners. 2008-2026 © Platter™ Ltd.
+                All rights reserved.
             </p>
-
         </div>
-
     </footer>
 
     <script src="js/script.js"></script>
