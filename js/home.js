@@ -7,18 +7,66 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. STICKY NAVBAR SCROLL TRANSITION
     // ----------------------------------------------------------------------
     const navbar = document.getElementById("mainNavbar");
+    let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
         if (!navbar) return;
-        if (window.scrollY > 40) {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > 40) {
             navbar.classList.add("scrolled");
         } else {
             navbar.classList.remove("scrolled");
         }
+
+        if (currentScrollY > 150 && currentScrollY > lastScrollY) {
+            navbar.classList.add("navbar-hidden");
+        } else {
+            navbar.classList.remove("navbar-hidden");
+        }
+
+        lastScrollY = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // Run initially in case page loaded scrolled down
+
+    // Back to top logic
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    const progressCircleBar = document.querySelector(".progress-circle-bar");
+
+    const updateScrollProgress = () => {
+        if (!backToTopBtn || !progressCircleBar) return;
+
+        const scrollY = window.scrollY;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        // Toggle back to top button visibility
+        if (scrollY > 400) {
+            backToTopBtn.classList.add("visible");
+        } else {
+            backToTopBtn.classList.remove("visible");
+        }
+
+        // Update SVG circle fill progress
+        if (scrollHeight > 0) {
+            const progressPercentage = scrollY / scrollHeight;
+            const circumference = 132; // 2 * Math.PI * 21
+            progressCircleBar.style.strokeDashoffset = circumference - (progressPercentage * circumference);
+        }
+    };
+
+    window.addEventListener("scroll", updateScrollProgress);
+    updateScrollProgress();
+
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
 
     // ----------------------------------------------------------------------
     // 2. MOBILE SIDE DRAWER TOGGLE
@@ -444,6 +492,26 @@ document.addEventListener("DOMContentLoaded", () => {
             fadeRight.style.opacity = scrollLeft < maxScrollLeft - 10 ? "1" : "0";
             fadeRight.style.pointerEvents = scrollLeft < maxScrollLeft - 10 ? "auto" : "none";
         }
+
+        // Disable/dim category arrows at bounds
+        if (catLeftBtn) {
+            if (scrollLeft <= 5) {
+                catLeftBtn.style.opacity = "0.35";
+                catLeftBtn.style.pointerEvents = "none";
+            } else {
+                catLeftBtn.style.opacity = "1";
+                catLeftBtn.style.pointerEvents = "auto";
+            }
+        }
+        if (catRightBtn) {
+            if (scrollLeft >= maxScrollLeft - 5) {
+                catRightBtn.style.opacity = "0.35";
+                catRightBtn.style.pointerEvents = "none";
+            } else {
+                catRightBtn.style.opacity = "1";
+                catRightBtn.style.pointerEvents = "auto";
+            }
+        }
     };
 
     if (categoriesTrack) {
@@ -505,10 +573,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // ----------------------------------------------------------------------
     const scrollRevealElements = document.querySelectorAll(".scroll-reveal");
 
+    // Prep stagger containers and elements before observing
+    scrollRevealElements.forEach(el => {
+        const cards = el.querySelectorAll('.stat-card, .category-item, .restaurant-card, .dish-card, .step-card, .testimonial-card, .category-card-item, .restaurant-card-item, .dish-card-item, .feature-item, .partner-float-card, .floating-ui-card');
+        if (cards.length > 0) {
+            el.classList.add("stagger-parent");
+            cards.forEach(card => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(25px)";
+                card.style.transition = "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
+            });
+        }
+    });
+
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("revealed");
+                if (entry.target.classList.contains("stagger-parent")) {
+                    const cards = entry.target.querySelectorAll('.stat-card, .category-item, .restaurant-card, .dish-card, .step-card, .testimonial-card, .category-card-item, .restaurant-card-item, .dish-card-item, .feature-item, .partner-float-card, .floating-ui-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = "1";
+                            card.style.transform = "translateY(0)";
+                        }, index * 75);
+                    });
+                }
                 observer.unobserve(entry.target); // Reveal once
             }
         });

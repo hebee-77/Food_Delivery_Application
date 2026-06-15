@@ -164,60 +164,100 @@ dots.forEach((dot, index) => {
 });
 
 // ======================================
-// NAVBAR SCROLL EFFECT
+// NAVBAR SCROLL EFFECT & SMART AUTO-HIDE
 // ======================================
 
 const navbar = document.querySelector(".navbar");
+let lastScrollY = window.scrollY;
 
 window.addEventListener("scroll", () => {
-
     if (!navbar) return;
 
-    if (window.scrollY > 50) {
+    const currentScrollY = window.scrollY;
+
+    // Sticky background transition
+    if (currentScrollY > 50) {
         navbar.classList.add("scrolled");
     } else {
         navbar.classList.remove("scrolled");
     }
 
+    // Auto-hide on scroll down, reveal on scroll up
+    if (currentScrollY > 150 && currentScrollY > lastScrollY) {
+        navbar.classList.add("navbar-hidden");
+    } else {
+        navbar.classList.remove("navbar-hidden");
+    }
+
+    lastScrollY = currentScrollY;
 });
 
 // ======================================
-// SCROLL ANIMATIONS
+// BACK TO TOP PROGRESS INDICATOR
 // ======================================
 
-const animatedCards = document.querySelectorAll(
+const backToTopBtn = document.getElementById("backToTopBtn");
+const progressCircleBar = document.querySelector(".progress-circle-bar");
+
+const updateScrollProgress = () => {
+    if (!backToTopBtn || !progressCircleBar) return;
+
+    const scrollY = window.scrollY;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    // Toggle button visibility
+    if (scrollY > 400) {
+        backToTopBtn.classList.add("visible");
+    } else {
+        backToTopBtn.classList.remove("visible");
+    }
+
+    // Update progress circle offset
+    if (scrollHeight > 0) {
+        const progressPercentage = scrollY / scrollHeight;
+        const circumference = 132; // 2 * Math.PI * 21
+        progressCircleBar.style.strokeDashoffset = circumference - (progressPercentage * circumference);
+    }
+};
+
+window.addEventListener("scroll", updateScrollProgress);
+// Run once on load to initialize progress
+window.addEventListener("load", updateScrollProgress);
+
+if (backToTopBtn) {
+    backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+}
+
+// ======================================
+// SCROLL ANIMATIONS (STANDALONE CARDS)
+// ======================================
+
+// Filter out cards that are handled by the container-level staggered scroll reveal
+const animatedCards = Array.from(document.querySelectorAll(
     ".stat-card, .category-item, .restaurant-card, .dish-card, .step-card, .testimonial-card"
-);
+)).filter(card => !card.closest('.scroll-reveal'));
 
 const observer = new IntersectionObserver((entries) => {
-
     entries.forEach(entry => {
-
         if (entry.isIntersecting) {
-
             entry.target.style.opacity = "1";
             entry.target.style.transform = "translateY(0)";
-
         }
-
     });
-
 }, {
     threshold: 0.15
 });
 
 animatedCards.forEach(card => {
-
     card.style.opacity = "0";
-
-    card.style.transform =
-        "translateY(30px)";
-
-    card.style.transition =
-        "all .7s ease";
-
+    card.style.transform = "translateY(30px)";
+    card.style.transition = "all .7s ease";
     observer.observe(card);
-
 });
 
 // ======================================
@@ -436,14 +476,36 @@ const initScrollReveal = () => {
     const scrollRevealElements = document.querySelectorAll(".scroll-reveal");
     if (!scrollRevealElements.length) return;
 
-    const revealObserver = new IntersectionObserver((entries) => {
+    // Prep stagger containers and elements before observing
+    scrollRevealElements.forEach(el => {
+        const cards = el.querySelectorAll('.stat-card, .category-item, .restaurant-card, .dish-card, .step-card, .testimonial-card, .category-card-item, .restaurant-card-item, .dish-card-item, .feature-item, .partner-float-card, .floating-ui-card');
+        if (cards.length > 0) {
+            el.classList.add("stagger-parent");
+            cards.forEach(card => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(25px)";
+                card.style.transition = "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
+            });
+        }
+    });
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("revealed");
-                revealObserver.unobserve(entry.target);
+                if (entry.target.classList.contains("stagger-parent")) {
+                    const cards = entry.target.querySelectorAll('.stat-card, .category-item, .restaurant-card, .dish-card, .step-card, .testimonial-card, .category-card-item, .restaurant-card-item, .dish-card-item, .feature-item, .partner-float-card, .floating-ui-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = "1";
+                            card.style.transform = "translateY(0)";
+                        }, index * 75);
+                    });
+                }
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
 
     scrollRevealElements.forEach(el => revealObserver.observe(el));
 };
