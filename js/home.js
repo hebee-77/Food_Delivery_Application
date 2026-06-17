@@ -31,42 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // Run initially in case page loaded scrolled down
 
-    // Back to top logic
-    const backToTopBtn = document.getElementById("backToTopBtn");
-    const progressCircleBar = document.querySelector(".progress-circle-bar");
 
-    const updateScrollProgress = () => {
-        if (!backToTopBtn || !progressCircleBar) return;
-
-        const scrollY = window.scrollY;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-        // Toggle back to top button visibility
-        if (scrollY > 400) {
-            backToTopBtn.classList.add("visible");
-        } else {
-            backToTopBtn.classList.remove("visible");
-        }
-
-        // Update SVG circle fill progress
-        if (scrollHeight > 0) {
-            const progressPercentage = scrollY / scrollHeight;
-            const circumference = 132; // 2 * Math.PI * 21
-            progressCircleBar.style.strokeDashoffset = circumference - (progressPercentage * circumference);
-        }
-    };
-
-    window.addEventListener("scroll", updateScrollProgress);
-    updateScrollProgress();
-
-    if (backToTopBtn) {
-        backToTopBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-    }
 
     // ----------------------------------------------------------------------
     // 2. MOBILE SIDE DRAWER TOGGLE

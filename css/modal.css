@@ -5,20 +5,20 @@
 
 /* ---- CSS Variables (reuse Platter palette) ---- */
 :root {
-    --modal-primary: #F4B400;
-    --modal-primary-hover: #E5A800;
-    --modal-surface: #FFFFFF;
-    --modal-surface-hover: #FAF9F6;
-    --modal-text: #111111;
-    --modal-text-muted: #6B7280;
-    --modal-border: #ECEAE4;
-    --modal-border-hover: #D8D6CF;
+    --modal-primary: #B8F2E6;
+    --modal-primary-hover: #85E8D4;
+    --modal-surface: #0A1F24;
+    --modal-surface-hover: #0F2F36;
+    --modal-text: #F5F3EF;
+    --modal-text-muted: #91B3BC;
+    --modal-border: #0F3A3F;
+    --modal-border-hover: #1C6B6A;
     --modal-error: #DC2626;
-    --modal-error-bg: #FEF2F2;
-    --modal-error-border: #FCA5A5;
+    --modal-error-bg: #221212;
+    --modal-error-border: #4A1A1A;
     --modal-success: #15803D;
-    --modal-success-bg: #F0FDF4;
-    --modal-success-border: #86EFAC;
+    --modal-success-bg: #122218;
+    --modal-success-border: #1A4A2A;
     --modal-radius: 28px;
     --modal-input-radius: 10px;
     --modal-transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
@@ -26,12 +26,12 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --modal-surface: #1A1815;
-        --modal-surface-hover: #24211D;
+        --modal-surface: #0A1F24;
+        --modal-surface-hover: #0F2F36;
         --modal-text: #F5F3EF;
-        --modal-text-muted: #9D978F;
-        --modal-border: #2C2925;
-        --modal-border-hover: #3E3A34;
+        --modal-text-muted: #91B3BC;
+        --modal-border: #0F3A3F;
+        --modal-border-hover: #1C6B6A;
         --modal-error-bg: #221212;
         --modal-error-border: #4A1A1A;
         --modal-success-bg: #122218;
@@ -746,9 +746,9 @@
 }
 
 .signup-close-btn:hover {
-    background: rgba(244, 180, 0, 0.1);
-    border-color: #F4B400;
-    color: #B87333;
+    background: rgba(var(--primary-rgb), 0.1);
+    border-color: var(--modal-primary);
+    color: var(--secondary);
     transform: rotate(90deg);
 }
 
@@ -760,7 +760,7 @@
     letter-spacing: -0.8px;
     color: #1A1A1A;
     margin: 0 0 28px 0;
-    background: linear-gradient(135deg, #F4B400, #B87333);
+    background: var(--brand-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -768,7 +768,7 @@
 
 @media (prefers-color-scheme: dark) {
     .signup-simple-title {
-        background: linear-gradient(135deg, #F4B400, #D4884A);
+        background: var(--brand-gradient);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -799,8 +799,8 @@
 }
 
 .signup-simple-input:focus {
-    border-color: #F4B400;
-    box-shadow: 0 0 0 4px rgba(244, 180, 0, 0.12);
+    border-color: var(--modal-primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.12);
 }
 
 .signup-simple-input::placeholder {
@@ -816,7 +816,7 @@
     }
 
     .signup-simple-input:focus {
-        border-color: #F4B400;
+        border-color: var(--modal-primary);
     }
 }
 
@@ -848,13 +848,13 @@
 }
 
 .signup-terms-label:hover .signup-terms-box {
-    border-color: #F4B400;
+    border-color: var(--modal-primary);
 }
 
 .signup-terms-label input:checked~.signup-terms-box {
-    background: linear-gradient(135deg, #F4B400, #D69E00);
-    border-color: #F4B400;
-    box-shadow: 0 2px 8px rgba(244, 180, 0, 0.3);
+    background: var(--brand-gradient);
+    border-color: var(--modal-primary);
+    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.3);
 }
 
 .signup-terms-label input:checked~.signup-terms-box::after {
@@ -876,14 +876,14 @@
 }
 
 .signup-terms-link {
-    color: #B87333;
+    color: var(--secondary);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s ease;
 }
 
 .signup-terms-link:hover {
-    color: #F4B400;
+    color: var(--modal-primary);
     text-decoration: underline;
 }
 
@@ -906,15 +906,15 @@
 }
 
 .signup-create-btn:not(:disabled) {
-    background: linear-gradient(135deg, #F4B400, #F0A000);
-    color: white;
+    background: var(--button-gradient);
+    color: var(--background);
     cursor: pointer;
-    box-shadow: 0 10px 28px rgba(244, 180, 0, 0.32);
+    box-shadow: 0 10px 28px rgba(var(--secondary-rgb), 0.32);
 }
 
 .signup-create-btn:not(:disabled):hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 36px rgba(244, 180, 0, 0.42);
+    box-shadow: 0 16px 36px rgba(var(--secondary-rgb), 0.42);
 }
 
 .signup-create-btn:not(:disabled):active {
@@ -1019,7 +1019,7 @@
 .signup-login-link {
     background: none;
     border: none;
-    color: #B87333;
+    color: var(--secondary);
     font-family: 'Inter', sans-serif;
     font-size: 0.92rem;
     font-weight: 700;
@@ -1029,7 +1029,7 @@
 }
 
 .signup-login-link:hover {
-    color: #F4B400;
+    color: var(--modal-primary);
     text-decoration: underline;
 }
 

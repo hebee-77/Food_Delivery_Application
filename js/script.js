@@ -192,46 +192,7 @@ window.addEventListener("scroll", () => {
     lastScrollY = currentScrollY;
 });
 
-// ======================================
-// BACK TO TOP PROGRESS INDICATOR
-// ======================================
 
-const backToTopBtn = document.getElementById("backToTopBtn");
-const progressCircleBar = document.querySelector(".progress-circle-bar");
-
-const updateScrollProgress = () => {
-    if (!backToTopBtn || !progressCircleBar) return;
-
-    const scrollY = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-    // Toggle button visibility
-    if (scrollY > 400) {
-        backToTopBtn.classList.add("visible");
-    } else {
-        backToTopBtn.classList.remove("visible");
-    }
-
-    // Update progress circle offset
-    if (scrollHeight > 0) {
-        const progressPercentage = scrollY / scrollHeight;
-        const circumference = 132; // 2 * Math.PI * 21
-        progressCircleBar.style.strokeDashoffset = circumference - (progressPercentage * circumference);
-    }
-};
-
-window.addEventListener("scroll", updateScrollProgress);
-// Run once on load to initialize progress
-window.addEventListener("load", updateScrollProgress);
-
-if (backToTopBtn) {
-    backToTopBtn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-}
 
 // ======================================
 // SCROLL ANIMATIONS (STANDALONE CARDS)

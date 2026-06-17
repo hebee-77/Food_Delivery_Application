@@ -4,28 +4,28 @@
    ========================================================================== */
 
 :root {
-    --primary: #F4B400;
-    --primary-hover: #E5A800;
-    --secondary: #B87333;
+    --primary: #B8F2E6;
+    --primary-hover: #85E8D4;
+    --secondary: #1C6B6A;
 
-    --background: #FDFBF7;
-    --surface: #FFFFFF;
-    --surface-hover: #FAF9F6;
+    --background: #071014;
+    --surface: #0A1F24;
+    --surface-hover: #0F2F36;
 
-    --text: #111111;
-    --text-muted: #6B7280;
-    --border: #ECEAE4;
-    --border-hover: #D8D6CF;
+    --text: #F5F3EF;
+    --text-muted: #91B3BC;
+    --border: #0F3A3F;
+    --border-hover: #1C6B6A;
 
     --error: #DC2626;
-    --error-bg: #FEF2F2;
-    --error-border: #FCA5A5;
+    --error-bg: #221212;
+    --error-border: #4A1A1A;
     --success: #15803D;
-    --success-bg: #F0FDF4;
-    --success-border: #86EFAC;
+    --success-bg: #122218;
+    --success-border: #1A4A2A;
 
-    --shadow-md: 0 10px 40px rgba(184, 115, 51, 0.05);
-    --shadow-lg: 0 20px 50px rgba(184, 115, 51, 0.08);
+    --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
 
     --radius-card: 32px;
     --radius-input: 8px;
@@ -35,13 +35,13 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: #0E0D0B;
-        --surface: #1A1815;
-        --surface-hover: #24211D;
+        --background: #071014;
+        --surface: #0A1F24;
+        --surface-hover: #0F2F36;
         --text: #F5F3EF;
-        --text-muted: #9D978F;
-        --border: #2C2925;
-        --border-hover: #3E3A34;
+        --text-muted: #91B3BC;
+        --border: #0F3A3F;
+        --border-hover: #1C6B6A;
         --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.3);
         --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
 
