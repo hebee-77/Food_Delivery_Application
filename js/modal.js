@@ -206,9 +206,24 @@
     const signupForm = document.getElementById("modal-signup-form");
     const signupName = document.getElementById("modal-signup-name");
     const signupEmail = document.getElementById("modal-signup-email");
+    const signupPassword = document.getElementById("modal-signup-password");
+    const signupToggleBtn = document.getElementById("modal-signup-toggle-pwd");
     const signupAlertBox = document.getElementById("modal-signup-alert");
     const signupTermsChk = document.getElementById("modal-agree-terms");
     const signupCreateBtn = document.getElementById("signup-create-btn");
+
+    // Toggle signup password visibility
+    if (signupToggleBtn && signupPassword) {
+        signupToggleBtn.addEventListener("click", () => {
+            const isHidden = signupPassword.type === "password";
+            signupPassword.type = isHidden ? "text" : "password";
+            const icon = signupToggleBtn.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("fa-eye", !isHidden);
+                icon.classList.toggle("fa-eye-slash", isHidden);
+            }
+        });
+    }
 
     // Enable/disable "Create account" button based on terms checkbox
     if (signupTermsChk && signupCreateBtn) {
@@ -237,17 +252,21 @@
 
             const name = signupName ? signupName.value.trim() : "";
             const email = signupEmail ? signupEmail.value.trim() : "";
+            const pwd = signupPassword ? signupPassword.value : "";
 
             if (!name) { showSignupAlert("Please enter your full name."); if (signupName) signupName.focus(); return; }
             if (name.length < 2) { showSignupAlert("Full name must be at least 2 characters."); if (signupName) signupName.focus(); return; }
             if (!email) { showSignupAlert("Please enter your email address."); if (signupEmail) signupEmail.focus(); return; }
             if (!isValidEmail(email)) { showSignupAlert("Please enter a valid email address."); if (signupEmail) signupEmail.focus(); return; }
+            if (!pwd) { showSignupAlert("Please enter a password."); if (signupPassword) signupPassword.focus(); return; }
+            if (pwd.length < 6) { showSignupAlert("Password must be at least 6 characters long."); if (signupPassword) signupPassword.focus(); return; }
 
             // Simulate success
             showSignupAlert("Account created! Taking you to Login…", "success");
             if (signupCreateBtn) signupCreateBtn.disabled = true;
             if (signupName) signupName.disabled = true;
             if (signupEmail) signupEmail.disabled = true;
+            if (signupPassword) signupPassword.disabled = true;
 
             setTimeout(() => {
                 closeModal(signupOverlay);
